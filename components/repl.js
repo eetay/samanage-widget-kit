@@ -30,6 +30,7 @@ export default class REPL extends React.PureComponent {
     return function(code) {
       var context = self.props.context
       var printResult = self.printResult
+      let result
       try {
          result = eval(code) || { 'TODO': 'Wait for async result!'}
       }
