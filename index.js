@@ -8,15 +8,11 @@ export default class SamangeWidget extends Component {
     this.state = {}
     platformWidgetHelper.updateHeight(1500)
     platformWidgetHelper.hide() // should be the default!
-
-    // Make 'static' functions per-instance (i.e. access to 'this')
-    this.onWidgetContextObject = this.onWidgetContextObject.bind(this)
-    this.onWidgetEvent = this.onWidgetEvent.bind(this)
   }
-  onWidgetEvent() {
+  onWidgetEvent = (event) => {
     console.log('WIDGET_EVENT:', arguments)
   }
-  onWidgetContextObject(object) {
+  onWidgetContextObject = (object) => {
     console.log('CONTEXT:', object)
     platformWidgetHelper.hide()
     this.setState(object)
@@ -34,8 +30,8 @@ export default class SamangeWidget extends Component {
     platformWidgetHelper.getContextObject(this.onWidgetContextObject)
   }
   render () {
-    console.log('RENDER ' + this.state.context_id)
     return <div>
+      <p width='100%' align='center' style={{background:'black', color:'white'}}>{this.state.context_type} {this.state.context_id}</p>
       <REPL context={this.state}/>
     </div>
   }
