@@ -4,16 +4,20 @@ import ReactDOM from 'react-dom'
 export default class SamangeWidget extends Component {
   constructor(props) {
     super(props);
-    platformWidgetHelper.updateHeight(1000)
-    // Make 'static' functions non-static
-    this.onContextObject = this.onContextObject.bind(this)
-    this.onWidgetEvent = this.onWidgetEvent.bind(this)
     this.state = {}
+    platformWidgetHelper.updateHeight(1000)
+    platformWidgetHelper.hide() // should be the default!
+
+    // Make 'static' functions per-instance (i.e. access to 'this')
+    this.onWidgetContextObject = this.onWidgetContextObject.bind(this)
+    this.onWidgetEvent = this.onWidgetEvent.bind(this)
   }
   onWidgetEvent(){
     console.log('WIDGET_EVENT:', arguments)
   }
-  onContextObject(object) {
+  onWidgetContextObject(object) {
+    console.log('CONTEXT:', object)
+    platformWidgetHelper.hide()
     this.setState(object)
   }
   componentDidUpdate() {
@@ -21,14 +25,11 @@ export default class SamangeWidget extends Component {
     if (this.state.context_type == 'Incident') {
       platformWidgetHelper.show()
     }
-    else {
-      platformWidgetHelper.hide()
-    }
   }
 
   componentDidMount() {
     platformWidgetHelper.registerToEvents('*', this.onWidgetEvent)
-    platformWidgetHelper.getContextObject(this.onContextObject)
+    platformWidgetHelper.getContextObject(this.onWidgetContextObject)
   }
   render () {
     console.log('RENDER ' + this.state.context_id)
