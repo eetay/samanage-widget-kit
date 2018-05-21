@@ -6,7 +6,10 @@
   "license": "Custom",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "./node_modules/.bin/webpack-dev-server --config ./webpack/webpack.dev.config.js"
+    "dev": "./node_modules/.bin/webpack-dev-server --config ./webpack/webpack.dev.config.js",
+    "build": "NODE_ENV=production webpack --display-error-details --colors --progress --config ./webpack/webpack.prod.config.js",
+    "clean": "rm -rf dist"
+
   },
   "dependencies": {
     "react": "16.3.2",
