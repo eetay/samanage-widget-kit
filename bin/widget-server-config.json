@@ -2,6 +2,10 @@
   "dev" : {
     "id": 1,
     "origin": "http://localhost:3000",
-    "token": ""
+    "token": "",
+    "info": {
+      "description": "Samanage Widget",
+      "name": "REPL4"
+     }
   }
 }

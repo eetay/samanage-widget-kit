@@ -1,5 +1,12 @@
 var request = require('request');
-var all_config = require('./widget-server-config.json')
+
+CONFIG='./widget-server-config.json'
+try {
+  var all_config = require(CONFIG)
+} catch (e) {
+  console.log('Not a valid JSON:', CONFIG)
+  process.exit(1)
+}
 var config = all_config.dev
 
 config.token = config.token || process.env.TOKEN
@@ -7,7 +14,7 @@ console.log(config)
 
 var options = {
   url: config.origin + '/platform_widgets/' + config.id + '.json',
-  body: JSON.stringify({platform_widget:{description:"install_widget.js"}}),
+  body: JSON.stringify({platform_widget:config.info}),
   headers: {
     'X-Samanage-Authorization': 'Bearer ' + config.token,
     'Content-Type': 'application/json',
