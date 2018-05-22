@@ -10,16 +10,15 @@ export default class SamangeWidget extends Component {
     this.state = {events:[], context:{}, showWindowPortal: true}
   }
   onWidgetEvent = (event) => {
-    console.log('WIDGET_EVENT:', arguments)
+    console.log('NEW EVENT:', event)
     this.setState({events: [...this.state.events, event]})
   }
   onWidgetContextObject = (object) => {
-    console.log('CONTEXT:', object)
+    console.log('NEW CONTEXT:', object)
     platformWidgetHelper.hide()
     this.setState({context: object})
   }
   componentDidUpdate() {
-    console.log('DID UPDATE')
     if (this.state.context.context_type == 'Incident') {
       platformWidgetHelper.updateHeight(1500)
       platformWidgetHelper.show()
@@ -31,7 +30,6 @@ export default class SamangeWidget extends Component {
     platformWidgetHelper.getContextObject(this.onWidgetContextObject)
   }
   render () {
-    console.log('SamanageWidget context', this.state.context)
     return <div>
       <p width='100%' align='center' style={{background:'black', color:'white'}}>{this.state.context_type} {this.state.context_id}</p>
       <DetachableWidgetWindow windowOptions={{width:800,height:600,left:200,top:200}}>
