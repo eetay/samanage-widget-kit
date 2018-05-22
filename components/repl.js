@@ -2,8 +2,6 @@ import React, {Component} from 'react'
 import ReactJson from 'react-json-view'
 
 
-
-
 var isFunction = (obj) => (!!(obj && obj.constructor && obj.call && obj.apply))
 var functionProto = (name, func) => (name + func.toString().match(/\(.*\)/)[0])
 
@@ -38,7 +36,8 @@ function typeInTextarea(el, newText) {
 
 export default class REPL extends Component {
   constructor(props){
-    super(props);
+    console.log('REPL props', props)
+    super(props)
     this.state = {
       code: 'platformWidgetHelper.callSamanageAPI(\n\t"get",\n\t"/incidents/"+context.context_id+".json",\n\t{},\n\tprintResult\n)',
       result: [{ 'TODO': 'Press "Evaluate!"'}],
@@ -130,6 +129,7 @@ export default class REPL extends Component {
   }
 
   render() {
+    console.log('REPL render', this.props)
     return <div>
       <ReactJson src={this.props.context} name="context"/>
       <p>

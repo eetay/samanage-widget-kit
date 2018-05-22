@@ -31,6 +31,7 @@ export default class SamangeWidget extends Component {
     platformWidgetHelper.getContextObject(this.onWidgetContextObject)
   }
   render () {
+    console.log('SamanageWidget context', this.state.context)
     return <div>
       <p width='100%' align='center' style={{background:'black', color:'white'}}>{this.state.context_type} {this.state.context_id}</p>
       <DetachableWidgetWindow windowOptions={{width:800,height:600,left:200,top:200}}>

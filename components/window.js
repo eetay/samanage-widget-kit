@@ -31,12 +31,12 @@ export default class DetachableWidgetWindow extends React.PureComponent {
       self.externalWindow = null
     }
     this.externalWindow.document.body.appendChild(this.containerEl);
-    this.setState({ portal: ReactDOM.createPortal(<div>{this.props.children}<button onClick={this.hideWindow}>Close me!</button></div>, this.containerEl) })
+    this.setState({ portal: true })
   }
 
   render() {
     console.log('RENDER', this.portal, this.state.showWindowPortal )
-    return this.state.portal ? this.state.portal : <div>{this.props.children}<button onClick={this.showWindow}>Open me!</button></div>
+    return this.state.portal ? ReactDOM.createPortal(<div>{this.props.children}<button onClick={this.hideWindow}>Close me!</button></div>, this.containerEl) : <div>{this.props.children}<button onClick={this.showWindow}>Open me!</button></div>
   }
 
   componentDidMount() {
