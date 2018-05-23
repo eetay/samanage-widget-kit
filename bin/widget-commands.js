@@ -10,17 +10,14 @@ try {
 var config = all_config.dev
 
 config.token = config.token || process.env.TOKEN
-console.log(config)
 
 Object.prototype.filter = function(predicate) {
     var result = {};
-
     for (key in this) {
         if (this.hasOwnProperty(key) && !predicate(key)) {
             result[key] = this[key]
         }
     }
-
     return result
 }
 
@@ -52,7 +49,7 @@ var options = {
 }
 
 action_options.send(options, function (error, response, body) {
-  console.log('options', options)
+  console.log('Sending request', options.url)
   if (!error && response.statusCode == 200) {
     try {
       var info = JSON.parse(body)
