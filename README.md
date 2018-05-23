@@ -7,7 +7,7 @@ git clone git@github.com:SAManage/samanage-widget-kit.git
 export TOKEN="<my-api-token>"
 ```
 
-edit ./bin/widget-server-config.json
+edit ```./bin/widget-server-config.json```
 start your rails server
 make sure you are ninja on your local rails server
 
