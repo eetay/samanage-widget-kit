@@ -7,8 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "./node_modules/.bin/webpack-dev-server --config ./webpack/webpack.dev.config.js",
-    "create_widget": "node bin/install_widget.js",
+    "create-widget": "node bin/widget-commands.js create-widget",
     "build": "NODE_ENV=production webpack --display-error-details --colors --progress --config ./webpack/webpack.prod.config.js",
+    "submit-widget": "yarn clean && yarn build && node bin/widget-commands.js submit-widget",
     "clean": "rm -rf dist"
   },
   "dependencies": {
