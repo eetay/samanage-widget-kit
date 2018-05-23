@@ -8,7 +8,7 @@ git clone git@github.com:SAManage/samanage-widget-kit.git
 
 - start your rails server
 - make sure you are ninja on your local rails server
-- issue yourself a api token if you don't already have one
+- issue yourself an api token if you don't already have one
 - edit ```./bin/widget-server-config.json``` and setup 'origin' to your rails server and 'info' to whatever widget info you want
 
 ``` sh
