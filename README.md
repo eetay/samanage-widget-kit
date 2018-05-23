@@ -25,7 +25,7 @@ yarn create-widget
 yarn dev
 ```
 
-then load Samanage Helpdesk in your browser and checkout your widget by opening a incident page
+- goto Samanage Helpdesk in your browser and checkout your widget by opening a incident page
 
 ## Submit widget for review
 ```sh
