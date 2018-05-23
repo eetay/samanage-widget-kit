@@ -12,16 +12,47 @@ var config = all_config.dev
 config.token = config.token || process.env.TOKEN
 console.log(config)
 
+Object.prototype.filter = function(predicate) {
+    var result = {};
+
+    for (key in this) {
+        if (this.hasOwnProperty(key) && !predicate(key)) {
+            result[key] = this[key]
+        }
+    }
+
+    return result
+}
+
+var idKey = (x)=>(x=='id')
+
+var all_actions_options = {
+  create_widget: {
+    url: config.origin + '/platform_widgets.json',
+    body: JSON.stringify({platform_widget: Object.assign({},config.info, {code: 'http://localhost:8080'})}),
+    send: request.post
+  },
+  update_widget: {
+    url: config.origin + '/platform_widgets/' + config.id + '.json',
+    body: JSON.stringify({platform_widget: config.info}),
+    send: request.put
+  }
+}
+
+action_options = all_actions_options.create_widget
+
 var options = {
-  url: config.origin + '/platform_widgets/' + config.id + '.json',
-  body: JSON.stringify({platform_widget:config.info}),
+  url: action_options.url,
+  body: action_options.body,
   headers: {
     'X-Samanage-Authorization': 'Bearer ' + config.token,
     'Content-Type': 'application/json',
     'Accept': 'application/vnd.samanage.v2.1+json'
   }
 }
-request.put(options,function (error, response, body) {
+
+action_options.send(options, function (error, response, body) {
+  console.log('options', options)
   if (!error && response.statusCode == 200) {
     try {
       var info = JSON.parse(body)
@@ -31,7 +62,6 @@ request.put(options,function (error, response, body) {
     }
   }
   else {
-    console.log('Error', error, response)
+    console.log('Error ', response && response.statusCode, error || body)
   }
 })
-
