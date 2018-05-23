@@ -1,4 +1,3 @@
-# samanage-widget-kit
 # A Development Environment for building Widgets using React
 
 # setup (samanage developer)
