@@ -7,9 +7,9 @@ git clone git@github.com:SAManage/samanage-widget-kit.git
 export TOKEN="<my-api-token>"
 ```
 
-edit ```./bin/widget-server-config.json```
-start your rails server
-make sure you are ninja on your local rails server
+- edit ```./bin/widget-server-config.json```
+- start your rails server
+- make sure you are ninja on your local rails server
 
 ``` sh
 yarn
@@ -18,7 +18,7 @@ yarn create-widget
 
 ## development
 
-start your rails server
+- start your rails server
 
 ```sh
 yarn dev
