@@ -1,22 +1,23 @@
 # A Development Environment for building Widgets using React
 
-## setup (local rails server)
+## Setup (local rails server)
 
 ```sh
 git clone git@github.com:SAManage/samanage-widget-kit.git
-export TOKEN="<my-api-token>"
 ```
 
-- edit ```./bin/widget-server-config.json```
 - start your rails server
 - make sure you are ninja on your local rails server
+- issue yourself a api token if you don't already have one
+- edit ```./bin/widget-server-config.json``` and setup 'origin' and 'info' 
 
 ``` sh
 yarn
+export TOKEN="<my-api-token>"
 yarn create-widget
 ```
 
-## development
+## Development
 
 - start your rails server
 
@@ -26,7 +27,7 @@ yarn dev
 
 then load Samanage Helpdesk in your browser and checkout your widget by opening a incident page
 
-## submit widget for review
+## Submit widget for review
 ```sh
 yarn submit-widget
 ```
