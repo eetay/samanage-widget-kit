@@ -26,6 +26,7 @@ yarn dev
 ```
 
 - goto Samanage Helpdesk in your browser and checkout your widget by opening a incident page
+- edit ./index.js and/or imported code to modify widget; changes should apply immediatly in browser
 
 ## Submit widget for review
 ```sh
