@@ -6,6 +6,7 @@ git clone git@github.com:SAManage/samanage-widget-kit.git
 export TOKEN="<my-api-token>"
 vi bin/widget-server-config.json
 rails s
+yarn
 yarn create-widget
 ```
 
