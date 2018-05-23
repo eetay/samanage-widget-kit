@@ -1,18 +1,26 @@
 # A Development Environment for building Widgets using React
 
-## setup (samanage developer)
+## setup (local rails server)
+
 ```sh
 git clone git@github.com:SAManage/samanage-widget-kit.git
 export TOKEN="<my-api-token>"
-vi bin/widget-server-config.json
-rails s
+```
+
+edit ./bin/widget-server-config.json
+start your rails server
+make sure you are ninja on your local rails server
+
+``` sh
 yarn
 yarn create-widget
 ```
 
 ## development
-```sh
-rails s
+
+1. start your rails server
+
+2. ```sh
 yarn dev
 ```
 
