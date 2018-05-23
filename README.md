@@ -15,7 +15,7 @@ rails s
 yarn dev
 ```
 
-then load Samanage Helpdesk in your browser
+then load Samanage Helpdesk in your browser and checkout your widget by opening a incident page
 
 # submit widget for review
 ```sh
