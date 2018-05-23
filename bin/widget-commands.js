@@ -25,12 +25,12 @@ var idKey = (x)=>(x=='id')
 
 var all_actions_options = {
   create_widget: {
-    url: config.origin + '/platform_widgets.json',
+    url: config.origin + '/admin/platform_widgets.json',
     body: JSON.stringify({platform_widget: Object.assign({},config.info, {code: 'http://localhost:8080'})}),
     send: request.post
   },
   update_widget: {
-    url: config.origin + '/platform_widgets/' + config.id + '.json',
+    url: config.origin + '/admin/platform_widgets/' + config.id + '.json',
     body: JSON.stringify({platform_widget: config.info}),
     send: request.put
   }
