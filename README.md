@@ -20,7 +20,8 @@ yarn create-widget
 
 1. start your rails server
 
-2. ```sh
+2.
+```sh
 yarn dev
 ```
 
