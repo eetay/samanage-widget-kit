@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 import REPL from './components/repl.js'
 import ReactJson from 'react-json-view'
-import DetachableWidgetWindow from './components/window.js'
+import DetachableWidgetWindow from './components/detachable_widget_window.js'
 
 export default class SamangeWidget extends Component {
   constructor(props) {
