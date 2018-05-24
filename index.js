@@ -7,7 +7,7 @@ import DetachableWidgetWindow from './components/detachable_widget_window.js'
 export default class SamangeWidget extends Component {
   constructor(props) {
     super(props);
-    this.state = {events:[], context:{}, showWindowPortal: true}
+    this.state = {events:[{a:1},{b:2}], context:{}, showWindowPortal: true}
   }
   onWidgetEvent = (event) => {
     console.log('NEW EVENT:', event)
@@ -29,13 +29,20 @@ export default class SamangeWidget extends Component {
     platformWidgetHelper.registerToEvents('*', this.onWidgetEvent)
     platformWidgetHelper.getContextObject(this.onWidgetContextObject)
   }
+  renderEvent(event) {
+    console.log('EVENT RENDER',event)
+    let name = event.eventType||'JSON event'
+    return <div style={{'padding':'3px'}}>{React.createElement(ReactJson,{theme: 'monokai', src: event, name: name, collapsed: '0'})}</div>
+  }
   render () {
     return <div>
       <p width='100%' align='center' style={{background:'black', color:'white'}}>{this.state.context_type} {this.state.context_id}</p>
       <DetachableWidgetWindow windowOptions={{width:800,height:600,left:200,top:200}}>
         <REPL id='repl' context={this.state.context}/>
       </DetachableWidgetWindow>
-      <ReactJson src={this.state.events} name="events" collapsed="2"/>
+      <div style={{'border':'1px solid black;'}}>
+        {this.state.events.map(this.renderEvent)}
+      </div>
     </div>
   }
 }

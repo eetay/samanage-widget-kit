@@ -1,4 +1,6 @@
 var request = require('request');
+var webpack_config = require('../webpack/webpack.dev.config.js');
+console.log(webpack_config)
 
 CONFIG='./widget-server-config.json'
 try {
@@ -26,7 +28,7 @@ var idKey = (x)=>(x=='id')
 var all_actions_options = {
   create_widget: {
     url: config.origin + '/admin/platform_widgets.json',
-    body: JSON.stringify({platform_widget: Object.assign({},config.info, {code: 'http://localhost:8080'})}),
+    body: JSON.stringify({platform_widget: Object.assign({},config.info, {code: 'http://localhost:' + webpack_config.devServer.port})}),
     send: request.post
   },
   update_widget: {
@@ -62,3 +64,4 @@ action_options.send(options, function (error, response, body) {
     console.log('Error ', response && response.statusCode, error || body)
   }
 })
+
