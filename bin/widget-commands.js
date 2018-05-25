@@ -1,67 +1,29 @@
-var request = require('request');
+var SamanageAPI = require('samanage-api')
+SamanageAPI.debug=true
 var webpack_config = require('../webpack/webpack.dev.config.js');
-console.log(webpack_config)
-
 CONFIG='./widget-server-config.json'
 try {
   var all_config = require(CONFIG)
 } catch (e) {
-  console.log('Not a valid JSON:', CONFIG)
+  console.log('Not a valid JSON in: ', CONFIG)
   process.exit(1)
 }
 var config = all_config.dev
-
 config.token = config.token || process.env.TOKEN
 
-Object.prototype.filter = function(predicate) {
-    var result = {};
-    for (key in this) {
-        if (this.hasOwnProperty(key) && !predicate(key)) {
-            result[key] = this[key]
-        }
-    }
-    return result
-}
-
-var idKey = (x)=>(x=='id')
-
-var all_actions_options = {
-  create_widget: {
-    url: config.origin + '/admin/platform_widgets.json',
-    body: JSON.stringify({platform_widget: Object.assign({},config.info, {code: 'http://localhost:' + webpack_config.devServer.port})}),
-    send: request.post
+var connection = SamanageAPI.connection(config.token, config.origin)
+//var update_widget = SamanageAPI.update('platform_widget')
+//var update_widget_request = update_widget(config.id, config.info),
+var create_widget = SamanageAPI.create('platform_widget', 'admin')
+var create_widget_request = create_widget(
+  Object.assign({},config.info, {code: 'http://localhost:' + webpack_config.devServer.port})
+)
+SamanageAPI.callSamanageAPI(
+  connection, create_widget_request, 
+  function (data) {
+    console.log('Success', data)
   },
-  update_widget: {
-    url: config.origin + '/admin/platform_widgets/' + config.id + '.json',
-    body: JSON.stringify({platform_widget: config.info}),
-    send: request.put
+  function(error) {
+    console.log('Error ', error)
   }
-}
-
-action_options = all_actions_options.create_widget
-
-var options = {
-  url: action_options.url,
-  body: action_options.body,
-  headers: {
-    'X-Samanage-Authorization': 'Bearer ' + config.token,
-    'Content-Type': 'application/json',
-    'Accept': 'application/vnd.samanage.v2.1+json'
-  }
-}
-
-action_options.send(options, function (error, response, body) {
-  console.log('Sending request', options.url)
-  if (!error && response.statusCode == 200) {
-    try {
-      var info = JSON.parse(body)
-      console.log('Success', info)
-    } catch(e) {
-      console.log('Not a valid JSON:', body)
-    }
-  }
-  else {
-    console.log('Error ', response && response.statusCode, error || body)
-  }
-})
-
+)
