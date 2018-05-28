@@ -37,7 +37,7 @@ export default class SamangeWidget extends Component {
   render () {
     return <div>
       <p width='100%' align='center' style={{background:'black', color:'white'}}>{this.state.context_type} {this.state.context_id}</p>
-      <DetachableWidgetWindow windowOptions={{width:800,height:600,left:200,top:200}}>
+      <DetachableWidgetWindow windowOptions={{width:800,height:600}>
         <REPL id='repl' context={this.state.context}/>
       </DetachableWidgetWindow>
       <div style={{'border':'1px solid black;'}}>

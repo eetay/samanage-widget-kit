@@ -4,16 +4,9 @@ import ReactDOM from 'react-dom'
 export default class DetachableWidgetWindow extends React.PureComponent {
   constructor(props) {
     super(props);
-    // STEP 1: create a container <div>
     this.containerEl = document.createElement('div');
     this.externalWindow = null;
     this.state = { portal: false }
-  }
-
-  hideWindow = () => {
-    this.setState({ portal: false })
-    this.externalWindow && this.externalWindow.close();
-    this.externalWindow = null
   }
 
   windowOptionsReducer = (accumulated_options, option) => {
@@ -21,7 +14,13 @@ export default class DetachableWidgetWindow extends React.PureComponent {
     return accumulated_options + (option + '=' + this.props.windowOptions[option])
   }
 
-  showWindow = () => {
+  closeWindow = () => {
+    this.setState({ portal: false })
+    this.externalWindow && this.externalWindow.close();
+    this.externalWindow = null
+  }
+
+  openWindow = () => {
     let window_options = Object.keys(this.props.windowOptions).reduce(this.windowOptionsReducer,'')
     console.log(window_options)
     this.externalWindow = window.open('', '', window_options);
@@ -36,17 +35,17 @@ export default class DetachableWidgetWindow extends React.PureComponent {
 
   render() {
     console.log('RENDER', this.portal, this.state.showWindowPortal )
-    return this.state.portal ? ReactDOM.createPortal(<div>{this.props.children}<button onClick={this.hideWindow}>Close me!</button></div>, this.containerEl) : <div>{this.props.children}<button onClick={this.showWindow}>Open me!</button></div>
+    return this.state.portal ? ReactDOM.createPortal(<div>{this.props.children}<button onClick={this.closeWindow}>Close me!</button></div>, this.containerEl) : <div>{this.props.children}<button onClick={this.openWindow}>Open me!</button></div>
   }
 
   componentDidMount() {
     console.log('componentDidMount')
-    this.showWindow()
+    this.closeWindow() // initial state of window when widget is launched
   }
 
   componentWillUnmount() {
     console.log('componentWillUnmount')
-    this.hideWindow()
+    this.closeWindow() // close window when unmounting
   }
 }
 
