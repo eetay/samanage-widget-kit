@@ -1,16 +1,21 @@
 # A Development Environment for building Widgets using React
 
-## Setup (local rails server)
+## Setup development environemnt for new widget
 
+ - Fork this repository
+ - Clone it to your local disk, like so:
 ```sh
-git clone git@github.com:SAManage/samanage-widget-kit.git
+git clone git@github.com:<MyGithubAccount>/samanage-widget-kit.git
 ```
+- (Local rails server) start your rails server
+- Generate an api token (if you don't already have one)
+- edit ```./bin/widget-server-config.json```:
+  - set 'origin' to 'https://api.samanage.com' (Samanage R&D: 'http://localhost:3000')
+    - Note: You must have permissions to create widgets the origin server you set
+  - set 'info' to whatever widget info you want. 
+    - Note: 'name' uniquely identifies your widget and cannot be changed once the widget is created
 
-- start your rails server
-- make sure you are ninja on your local rails server
-- issue yourself an api token if you don't already have one
-- edit ```./bin/widget-server-config.json``` and setup 'origin' to your rails server and 'info' to whatever widget info you want
-
+execute in command prompt:
 ``` sh
 yarn
 export TOKEN="<my-api-token>"
@@ -19,14 +24,14 @@ yarn create-widget
 
 ## Development
 
-- start your rails server
-
+- (Local rails server) start your rails server
+- Start the widget dev server:
 ```sh
 yarn dev
 ```
 
-- goto Samanage Helpdesk in your browser and checkout your widget by opening a incident page
-- edit ./index.js and/or imported code to modify widget; changes should apply immediatly in browser
+- Goto Samanage Helpdesk in your browser and checkout your widget by opening a incident page
+- Edit ./index.js and other code to modify the widget; changes should apply immediatly in browser
 
 ## Submit widget for review
 ```sh
