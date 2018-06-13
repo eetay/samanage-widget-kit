@@ -15,7 +15,7 @@ SamanageAPI.debug = true
 var samanage = new SamanageAPI.Connection(config.token, config.origin)
 var create_widget = SamanageAPI.create('platform_widget', 'admin')
 var create_widget_request = create_widget(
-  Object.assign({},config.info, {code: 'http://localhost:' + webpack_config.devServer.port})
+  Object.assign({},config.info, {code: (webpack_config.devServer.https?'https':'http') + '://localhost:' + webpack_config.devServer.port})
 )
 samanage.callSamanageAPI(create_widget_request).
   then(function({data}) {

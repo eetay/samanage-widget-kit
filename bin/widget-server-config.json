@@ -1,11 +1,11 @@
 {
   "dev" : {
-    "origin1": "https://api.samanagestage.com",
-    "origin": "http://localhost:3000",
+    "origin": "https://api.samanagestage.com",
+    "origin2": "http://localhost:3000",
     "token": "",
     "info": {
-      "description": "Samanage Widget",
-      "name": "REPL9"
+      "description": "My Samanage Widget",
+      "name": "REPL19"
      }
   }
 }
