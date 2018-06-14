@@ -29,9 +29,9 @@ yarn create-widget
 ```sh
 yarn dev
 ```
-
-- Goto Samanage Helpdesk in your browser and checkout your widget by opening a incident page
-- Edit ./index.js and other code to modify the widget; changes should apply immediatly in browser
+- (Local rails server: skip this) open ```https://localhost:8080``` (note the 'https') and approve browser's claim of bad certificate
+- Open Samanage Helpdesk (the 'originr' configured above) in your browser and checkout your widget by opening an incident's page
+- Edit ./index.js and/or other code to modify the widget and save; changes should apply immediatly in browser
 
 ## Submit widget for review
 ```sh
