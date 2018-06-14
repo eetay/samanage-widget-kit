@@ -7,14 +7,14 @@ var functionProto = (name, func) => (name + func.toString().match(/\(.*\)/)[0])
 
 function sharedStart(array){
   var A= array.concat().sort(),
-  a1= A[0], a2= A[A.length-1], L= a1.length, i= 0;
-  while(i<L && a1.charAt(i)=== a2.charAt(i)) i++;
-  return a1.substring(0, i);
+  a1 = A[0], a2 = A[A.length-1], L = a1.length, i = 0
+  while(i < L && a1.charAt(i) === a2.charAt(i)) i++
+  return a1.substring(0, i)
 }
 
 var evalWithinContext = function(context, code)
 {
-    (function(code) { return eval(code); }).apply(context, [code]);
+    (function(code) { return eval(code); }).apply(context, [code])
 }
 
 function typeInTextarea(el, newText) {
@@ -48,20 +48,20 @@ export default class REPL extends Component {
   }
 
   evaluate = (event) => {
-    this.setState({code: this.refs.code.value, result: []}, function (){
+    this.setState({code: this.refs.code.value, result: []}, function () {
       this.evalContext(this.refs.code.value)
     })
   }
 
   printResult = (data) => {
     console.log('last_result:', data)
-    this.setState({result: [...this.state.result, data]})
+    this.setState({ result: [...this.state.result, data] })
     return data
   }
 
   completionsOf(value) {
     var matches_array = value.match(/[A-Za-z.]+\(?$/)
-    if (!matches_array) return null;
+    if (!matches_array) return null
     var parts = matches_array[0].split('.')
     var incomplete_term = parts.slice(-1)[0]
     var expression = parts.length > 1 ? parts.slice(0,-1).join('.') : 'this'
@@ -82,7 +82,7 @@ export default class REPL extends Component {
   onKeyPress = (event) => {
     if (event.key.match(/[A-Za-z.]/)) {
       let completions = this.completionsOf(event.target.value.substring(0, event.target.selectionStart) + event.key)
-      if (!completions) return;
+      if (!completions) return
       console.log('COMPLETIONS', completions)
       this.setState({completions: completions.slice(1)})
     }
@@ -90,7 +90,7 @@ export default class REPL extends Component {
       event.preventDefault()
       let completions = this.completionsOf(event.target.value.substring(0, event.target.selectionStart))
       console.log('COMPLETING', completions)
-      if (!completions) return;
+      if (!completions) return
       typeInTextarea(event.target, sharedStart(completions.slice(1)).substring(completions[0].length))
       //let new_code = event.target.value.substring(0, event.target.selectionStart) + completions[0] + event.target.value.substring(event.target.selectionStart)
       console.log('####',event.target.value.substring(0, event.target.selectionStart))
