@@ -28,6 +28,9 @@ module.exports = {
     historyApiFallback: true,
     host: '127.0.0.1',
     port: 8080,
-    disableHostCheck: true
+    disableHostCheck: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
   }
 }
