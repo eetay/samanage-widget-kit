@@ -26,6 +26,8 @@ module.exports = {
     https: true,
     contentBase: parentDir,
     historyApiFallback: true,
-    port: 8080
+    host: '127.0.0.1',
+    port: 8080,
+    disableHostCheck: true
   }
 }
