@@ -29,11 +29,15 @@ yarn create-widget
 ```sh
 yarn dev
 ```
-- (Local rails server: skip this) open ```https://localhost:8080``` (note the 'https') and approve browser's claim of bad certificate
-- Open Samanage Helpdesk (the 'originr' configured above) in your browser and checkout your widget by opening an incident's page
-- Edit ./index.js and/or other code to modify the widget and save; changes should apply immediatly in browser
+- (Local rails server: skip this) Inform browser to ignore the unrecognized webpack certificate:
+  - open ```https://localhost:8080``` (note the 'https') and approve browser's claim of bad certificate
+  - Note: You need to do this every time you run ```yarn dev``` or [Permanently allow self-signed certificates on localhost](https://improveandrepeat.com/2016/09/allowing-self-signed-certificates-on-localhost-with-chrome-and-firefox/)
+  
+- Open Samanage Helpdesk (the 'origin' configured above) in your browser and checkout your widget by opening an incident's page
+- Edit ```./index.js``` and/or other code to modify the widget and save; changes should apply immediatly in browser
 
 ## Submit widget for review
 ```sh
 yarn submit-widget
 ```
+
