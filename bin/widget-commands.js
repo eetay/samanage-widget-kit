@@ -11,6 +11,17 @@ try {
 var config = all_config.dev
 config.token = config.token || process.env.TOKEN
 
+if (!config.token) {
+  console.error('API token not set. Use "export TOKEN=<my-API-token>"')
+  process.exit(1)
+} else if (webpack_config.devServer.https && !config.origin.match('https')) {
+  console.error('Webpack server is configured for https, but widget origin is http')
+  process.exit(1)
+} else if  (!webpack_config.devServer.https && config.origin.match('https')) {
+  console.error('Webpack server is configured for http, but widget origin is https')
+  process.exit(1)
+}
+
 SamanageAPI.debug = true
 var samanage = new SamanageAPI.Connection(config.token, config.origin)
 var create_widget = SamanageAPI.create('platform_widget', 'admin')
