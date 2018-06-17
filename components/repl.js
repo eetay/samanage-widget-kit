@@ -115,12 +115,17 @@ export default class REPL extends Component {
       //var platformWidgetHelper = function () {return 3}
       let result
       try {
-         result = eval(code) || { 'TODO': 'Wait for async result!'}
+         result = eval(code)
       }
       catch (e) {
         result = e.toString()
       }
-      this.printResult(result)
+      if (result && typeof result.then == 'function') {
+        printResult('Waiting for result...')
+        result.then(printResult)
+      } else {
+        printResult(result)
+      }
     }
   }
 
