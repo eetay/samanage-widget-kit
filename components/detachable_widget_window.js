@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 export default class DetachableWidgetWindow extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.containerEl = document.createElement('div');
     this.externalWindow = null;
     this.state = { portal: false }
