@@ -12,7 +12,9 @@ export default class SamangeWidget extends Component {
   }
   onWidgetEvent = (event) => {
     console.log('NEW EVENT:', event)
-    TeamViewer.getTeamViewerToken(event.params)
+    if (event.eventType == 'oauthRedirect') {
+      TeamViewer.getTeamViewerToken(event)
+    }
     this.setState({events: [...this.state.events, event]})
   }
 

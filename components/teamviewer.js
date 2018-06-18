@@ -26,27 +26,33 @@ export default class TeamViewer extends React.PureComponent {
   }
 }
 
-TeamViewer.getTeamViewerToken = function(code) {
+TeamViewer.getTeamViewerToken = function(event) {
   try {
-    debugger
+    var code = event.query_params.code
     var client_id = '163227-2trjZzUFzC6JXp96Wdi2'
     var client_secret = 'afFakDH8scyGwKZNZ72M'
     var xhttp = new XMLHttpRequest()
     xhttp.onreadystatechange = function() {
       console.log('AJAX STATE', this.status, this.readyState)
-      if (this.readyState == 4 && this.status == 200) {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+        }
         console.log('AJAX DONE', xhttp.responseText)
+        debugger
       }
     }
-    xhttp.open('POST', 'https://webapi.teamviewer.com/api/v1/oauth2/token?' + platformWidgetHelper.toQueryString({
+    xhttp.open('POST', 'https://webapi.teamviewer.com/api/v1/oauth2/token', true)
+    console.log('AJAX SEND')
+    var post_data = platformWidgetHelper.toQueryString({
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: platformWidgetHelper.oauth.buildRedirectUrl(),
+      redirect_uri: 'http://localhost:3000' + platformWidgetHelper.oauth.buildRedirectUrl(),
       client_id: client_id,
       client_secret: client_secret
-    }), true)
-    console.log('AJAX SEND')
-    xhttp.send()
+    }).replace(/%20/g, '+')
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    debugger
+    xhttp.send(post_data)
   }
   catch(e) {
     console.error(e)
