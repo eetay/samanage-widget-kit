@@ -10,21 +10,19 @@ export default class SamangeWidget extends Component {
     super(props);
     this.state = {events:[{a:1},{b:2}], context:{}, showWindowPortal: true}
   }
+
   onWidgetEvent = (event) => {
     console.log('NEW EVENT:', event)
-    if (event.eventType == 'oauthRedirect') {
-      TeamViewer.getTeamViewerToken(event)
-    }
     this.setState({events: [...this.state.events, event]})
   }
 
-  onWidgetContextObject = (object) => {
+  onWidgetContextObject(object) {
     console.log('NEW CONTEXT:', object)
     platformWidgetHelper.show()
     this.setState({context: object})
   }
 
-  componentDidUpdate(state) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     console.log('DID UPDATE1', this.state.context, this.state.context.context_type)
     if (this.state.context.context_type == 'Incident') {
       platformWidgetHelper.updateHeight(1500)
@@ -42,7 +40,7 @@ export default class SamangeWidget extends Component {
     let name = event.eventType||'JSON event'
     return <div style={{'padding':'3px'}}>{React.createElement(ReactJson,{theme: 'monokai', src: event, name: name, collapsed: '0'})}</div>
   }
-  render () {
+  render() {
     console.log('RENDER')
     return <div>
       EETAY IS HERE
