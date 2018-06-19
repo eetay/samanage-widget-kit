@@ -8,7 +8,7 @@ import TeamViewer from './components/teamviewer.js'
 export default class SamangeWidget extends Component {
   constructor(props) {
     super(props);
-    this.state = {events:[{a:1},{b:2}], context:{}, showWindowPortal: true}
+    this.state = {events:[], context:{}, showWindowPortal: true}
   }
 
   onWidgetEvent = (event) => {
@@ -43,13 +43,12 @@ export default class SamangeWidget extends Component {
   render() {
     console.log('RENDER')
     return <div>
-      EETAY IS HERE
       <p width='100%' align='center' style={{background:'black', color:'white'}}>{this.state.context_type} {this.state.context_id}</p>
-      <DetachableWidgetWindow windowOptions={{width:800,height:600}}>
+      <DetachableWidgetWindow windowOptions={{width:800, height:600}}>
         <REPL id='repl' context={this.state.context}/>
       </DetachableWidgetWindow>
-      <TeamViewer/>
-      <div style={{'border':'1px solid black;'}}>
+      <TeamViewer client_id='163336-hrZ8NicCJrPjtyDyoMkl'/>
+      <div style={{'border':'1px solid black'}}>
         {this.state.events.map(this.renderEvent)}
       </div>
     </div>
