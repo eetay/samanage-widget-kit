@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import REPL from './components/repl.js'
 import ReactJson from 'react-json-view'
 import DetachableWidgetWindow from './components/detachable_widget_window.js'
-import TeamViewer from './components/teamviewer.js'
+import OAuthAuthenticator from './components/oauth_authenticator.js'
 
 export default class SamangeWidget extends Component {
   constructor(props) {
@@ -47,7 +47,11 @@ export default class SamangeWidget extends Component {
       <DetachableWidgetWindow windowOptions={{width:800, height:600}}>
         <REPL id='repl' context={this.state.context}/>
       </DetachableWidgetWindow>
-      <TeamViewer client_id='163336-hrZ8NicCJrPjtyDyoMkl'/>
+      <OAuthAuthenticator
+        client_id='163336-hrZ8NicCJrPjtyDyoMkl'
+        client_secret='mtb9f665VxDC6HvduidM'
+        token_url='https://webapi.teamviewer.com/api/v1/oauth2/token'
+        authorization_url='https://webapi.teamviewer.com/api/v1/oauth2/authorize?'/>
       <div style={{'border':'1px solid black'}}>
         {this.state.events.map(this.renderEvent)}
       </div>

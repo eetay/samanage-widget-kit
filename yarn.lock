@@ -5512,9 +5512,9 @@ safe-regex@^1.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
 
-samanage-api@^2.0.1:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/samanage-api/-/samanage-api-2.1.0.tgz#a842e586345964c5153fbeaaa5f55ebf91c074fe"
+samanage-api@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/samanage-api/-/samanage-api-2.2.0.tgz#32460ed7cbda7add37f3d67a7e9a6b568255cba1"
   dependencies:
     request "2.87.0"
 

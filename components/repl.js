@@ -39,7 +39,7 @@ export default class REPL extends Component {
     console.log('REPL props', props)
     super(props)
     this.state = {
-      code: 'platformWidgetHelper.callSamanageAPI(\n\t"get",\n\t"/incidents/"+context.context_id+".json",\n\t{},\n\tprintResult\n)',
+      code: 'platformWidgetHelper.callSamanageAPI(\n\t"get",\n\t"/incidents/"+context.context_id+".json",\n\t{}\n)',
       result: [{ 'TODO': 'Press "Evaluate!"'}],
       completions: []
     }

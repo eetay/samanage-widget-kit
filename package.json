@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Eetay Natan",
-  "license": "Custom",
+  "license": "UNLICENSED",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "./node_modules/.bin/webpack-dev-server --config ./webpack/webpack.dev.config.js",
@@ -15,11 +15,7 @@
   "dependencies": {
     "react": "16.3.2",
     "react-dom": "16.3.2",
-    "react-json-view": "^1.0",
-    "samanage-api": "^2.0.1",
-    "webpack": "4.8.3",
-    "webpack-cli": "2.1.3",
-    "webpack-dev-server": "3.1.4"
+    "react-json-view": "^1.0"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -34,7 +30,11 @@
     "less": "3.0.4",
     "less-loader": "4.1.0",
     "request": "2.87.0",
-    "style-loader": "0.21.0"
+    "samanage-api": "^2.2.0",
+    "style-loader": "0.21.0",
+    "webpack": "4.8.3",
+    "webpack-cli": "2.1.3",
+    "webpack-dev-server": "3.1.4"
   },
   "babel": {
     "presets": [

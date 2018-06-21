@@ -1,7 +1,7 @@
 {
   "dev" : {
     "origin": "https://api.samanagestage.com",
-    "origin2": "http://localhost:3000",
+    "origin1": "http://localhost:3000",
     "token": "",
     "info": {
       "description": "My Samanage Widget",
