@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 
 /*
   This component manages oauth authentication process
@@ -7,18 +7,18 @@ import React, {Component} from 'react'
 */
 
 export default class OAuthAuthenticator extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.credentials = null
     this.externalWindow = null
-    this.state = {state: OAuthAuthenticator.NOT_AUTHENTICATED, credentials: null, externalWindow: false}
+    this.state = { state: OAuthAuthenticator.NOT_AUTHENTICATED, credentials: null, externalWindow: false }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     window.addEventListener('message', this.dispatchWidgetMessage, false)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     window.removeEventListener('message', this.dispatchWidgetMessage, false)
   }
 
@@ -36,41 +36,39 @@ export default class OAuthAuthenticator extends React.PureComponent {
 
   onAuthStateChange = () => {
     if (this.props.on_state_change) {
-      this.props.on_state_change({state: this.state.state, credentials: this.state.credentials})
+      this.props.on_state_change({ state: this.state.state, credentials: this.state.credentials })
     }
   }
 
   getToken = (event) => {
     // Note: this whole function should be moved to server side (because of 'client_secret')
     try {
-      var component = this
-      var code = event.query_params.code
-      var xhttp = new XMLHttpRequest()
+      const component = this
+      const code = event.query_params.code
+      const xhttp = new XMLHttpRequest()
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4) {
           alert(`getToken completed:(${this.status}): ${this.responseText}`)
           if (this.status == 200) {
             component.credentials = JSON.parse(this.responseText)
-            component.setState({state: OAuthAuthenticator.AUTHENTICATED, credentials: component.credentials}, component.onAuthStateChange)
-          }
-          else {
+            component.setState({ state: OAuthAuthenticator.AUTHENTICATED, credentials: component.credentials }, component.onAuthStateChange)
+          } else {
             component.credentials = null
-            component.setState({state: OAuthAuthenticator.AUTH_ERROR, credentials: null}, component.onAuthStateChange)
+            component.setState({ state: OAuthAuthenticator.AUTH_ERROR, credentials: null }, component.onAuthStateChange)
           }
         }
       }
-      xhttp.open('POST',  this.props.token_url, true)
-      var post_data = platformWidgetHelper.toQueryString({
+      xhttp.open('POST', this.props.token_url, true)
+      const post_data = platformWidgetHelper.toQueryString({
         grant_type: 'authorization_code',
-        code: code,
-        redirect_uri: 'https://app.samanagestage.com' + platformWidgetHelper.oauth.buildRedirectUrl(),
+        code,
+        redirect_uri: `https://app.samanagestage.com${platformWidgetHelper.oauth.buildRedirectUrl()}`,
         client_id: this.props.client_id,
         client_secret: this.props.client_secret
       }).replace(/%20/g, '+')
       xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
       xhttp.send(post_data)
-    }
-    catch(e) {
+    } catch (e) {
       console.error(e)
     }
   }
@@ -89,27 +87,32 @@ export default class OAuthAuthenticator extends React.PureComponent {
     }
   }
 
-  openOAuthAuthenticator = ()  => {
-    this.setState({state: OAuthAuthenticator.AUTH_IN_PROGRESS})
-    var redirect_uri = 'https://app.samanagestage.com' + platformWidgetHelper.oauth.buildRedirectUrl()
-    var OAuthAuthenticator_url = this.props.authorization_url + platformWidgetHelper.toQueryString({
+  openOAuthAuthenticator = () => {
+    this.setState({ state: OAuthAuthenticator.AUTH_IN_PROGRESS })
+    const redirect_uri = `https://app.samanagestage.com${platformWidgetHelper.oauth.buildRedirectUrl()}`
+    const OAuthAuthenticator_url = this.props.authorization_url + platformWidgetHelper.toQueryString({
       response_type: 'code',
       client_id: this.props.client_id,
-      redirect_uri: redirect_uri,
-      state: platformWidgetHelper.toQueryString({closeWindow: true}),
+      redirect_uri,
+      state: platformWidgetHelper.toQueryString({ closeWindow: true }),
       display: 'popup'
     })
-    console.log({OAuthAuthenticator_url: OAuthAuthenticator_url})
+    console.log({ OAuthAuthenticator_url })
     this.externalWindow = window.open(OAuthAuthenticator_url, '_blank', 'height=600,width=800,status=yes,toolbar=no,menubar=no,location=no')
-    var self = this
-    this.externalWindow.onbeforeunload = function () {
+    const self = this
+    this.externalWindow.onbeforeunload = function() {
       self.setState({ externalWindow: false })
       self.externalWindow = null
     }
     this.setState({ externalWindow: true })
   }
-  render() {
-    return <button onClick={this.state.externalWindow ? this.focusExternalWindow : this.openOAuthAuthenticator}>Login</button>
+
+  render () {
+    return (
+      <button onClick={this.state.externalWindow ? this.focusExternalWindow : this.openOAuthAuthenticator}>
+Login
+      </button>
+    )
   }
 }
 
@@ -117,4 +120,3 @@ OAuthAuthenticator.AUTH_IN_PROGRESS = 'in-progress'
 OAuthAuthenticator.AUTHENTICATED = 'authenticated'
 OAuthAuthenticator.AUTH_ERROR = 'error'
 OAuthAuthenticator.NOT_AUTHENTICATED = 'not-authenticated'
-
