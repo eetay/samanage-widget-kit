@@ -5,6 +5,33 @@ import ReactJson from 'react-json-view'
 import DetachableWidgetWindow from './components/detachable_widget_window.js'
 import OAuthAuthenticator from './components/oauth_authenticator.js'
 
+
+function createTeamViewerSession(token) {
+  var xhttp = new XMLHttpRequest()
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4) {
+      console.log('DONE', this.responseText, this.status)
+      alert(JSON.stringify({response: this.responseText, status:this.status}))
+    }
+    console.log('state change: ', this.readyState)
+  }
+  xhttp.open('POST',
+    'https://l6tw4zzxz1.execute-api.us-east-1.amazonaws.com/prod/api/v1/sessions',
+    //'https://webapi.teamviewer.com/api/v1/ping',
+     true)
+  xhttp.setRequestHeader('Authorization', 'Bearer ' + token)
+  xhttp.setRequestHeader('Content-Type', 'application/json')
+  xhttp.send(JSON.stringify({
+    "groupname" : "Samanage",
+    "description" : "Hello, I have an issue with my printer, can you please assist?",
+    "end_customer" : { "name" : "Peter Niedhelp" },
+    "waiting_message" : "xxxxA",
+    "custom_api" : JSON.stringify({ "ticket_id" : "535824" })
+  }))
+}
+
+
+
 export default class SamangeWidget extends Component {
   constructor(props) {
     super(props);
@@ -48,6 +75,10 @@ export default class SamangeWidget extends Component {
         <REPL id='repl' context={this.state.context}/>
       </DetachableWidgetWindow>
       <OAuthAuthenticator
+        on_state_change={({state, credentials})=> {
+          console.log('TeamViewer auth state: ' + state)
+          if (state == OAuthAuthenticator.AUTHENTICATED) createTeamViewerSession(credentials.access_token)
+        }}
         client_id='163336-hrZ8NicCJrPjtyDyoMkl'
         client_secret='mtb9f665VxDC6HvduidM'
         token_url='https://webapi.teamviewer.com/api/v1/oauth2/token'

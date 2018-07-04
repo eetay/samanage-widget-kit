@@ -1,29 +1,5 @@
 import React, {Component} from 'react'
 
-function createTeamViewerSession(token) {
-  var xhttp = new XMLHttpRequest()
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4) {
-      console.log('DONE', this.responseText, this.status)
-      alert(JSON.stringify({response: this.responseText, status:this.status}))
-    }
-    console.log('state change: ', this.readyState)
-  }
-  xhttp.open('POST',
-    'https://l6tw4zzxz1.execute-api.us-east-1.amazonaws.com/prod/api/v1/sessions',
-    //'https://webapi.teamviewer.com/api/v1/ping',
-     true)
-  xhttp.setRequestHeader('Authorization', 'Bearer ' + token)
-  xhttp.setRequestHeader('Content-Type', 'application/json')
-  xhttp.send(JSON.stringify({
-    "groupname" : "Samanage",
-    "description" : "Hello, I have an issue with my printer, can you please assist?",
-    "end_customer" : { "name" : "Peter Niedhelp" },
-    "waiting_message" : "xxxxA",
-    "custom_api" : JSON.stringify({ "ticket_id" : "535824" })
-  }))
-}
-
 /*
   This component manages oauth authentication process
   it renders a button which opens the 3rd party login window
@@ -35,7 +11,7 @@ export default class OAuthAuthenticator extends React.PureComponent {
     super(props)
     this.credentials = null
     this.externalWindow = null
-    this.state = {state: OAuthAuthenticator.NOT_AUTHENTICATED, externalWindow: false}
+    this.state = {state: OAuthAuthenticator.NOT_AUTHENTICATED, credentials: null, externalWindow: false}
   }
 
   componentDidMount() {
@@ -58,6 +34,13 @@ export default class OAuthAuthenticator extends React.PureComponent {
     }
   }
 
+  onAuthStateChange = () => {
+    debugger
+    if (this.props.on_state_change) {
+      this.props.on_state_change({state: this.state.state, credentials: this.state.credentials})
+    }
+  }
+
   getToken = (event) => {
     // Note: this whole function should be moved to server side (because of 'client_secret')
     try {
@@ -69,12 +52,11 @@ export default class OAuthAuthenticator extends React.PureComponent {
           alert(`getToken completed:(${this.status}): ${this.responseText}`)
           if (this.status == 200) {
             component.credentials = JSON.parse(this.responseText)
-            createTeamViewerSession(component.credentials.access_token)
-            component.setState({state: OAuthAuthenticator.AUTHENTICATED})
+            component.setState({state: OAuthAuthenticator.AUTHENTICATED, credentials: component.credentials}, component.onAuthStateChange)
           }
           else {
             component.credentials = null
-            component.setState({state: OAuthAuthenticator.AUTH_ERROR})
+            component.setState({state: OAuthAuthenticator.AUTH_ERROR, credentials: null}, component.onAuthStateChange)
           }
         }
       }
