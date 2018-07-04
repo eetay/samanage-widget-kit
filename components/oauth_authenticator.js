@@ -35,7 +35,6 @@ export default class OAuthAuthenticator extends React.PureComponent {
   }
 
   onAuthStateChange = () => {
-    debugger
     if (this.props.on_state_change) {
       this.props.on_state_change({state: this.state.state, credentials: this.state.credentials})
     }
@@ -77,13 +76,13 @@ export default class OAuthAuthenticator extends React.PureComponent {
   }
 
   closeExternalWindow = () => {
-    if (this.externalWindow) this.externalWindow.close()
+    if (this.externalWindow && !this.externalWindow.closed) this.externalWindow.close()
     this.externalWindow = null
     this.setState({ externalWindow: false })
   }
 
   focusExternalWindow = () => {
-    if (this.externalWindow) {
+    if (this.externalWindow && !this.externalWindow.closed) {
       this.externalWindow.focus()
     } else {
       this.closeExternalWindow()
