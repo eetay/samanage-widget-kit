@@ -1,5 +1,29 @@
 import React, {Component} from 'react'
 
+function createTeamViewerSession(token) {
+  var xhttp = new XMLHttpRequest()
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4) {
+      console.log('DONE', this.responseText, this.status)
+      alert(JSON.stringify({response: this.responseText, status:this.status}))
+    }
+    console.log('state change: ', this.readyState)
+  }
+  xhttp.open('POST',
+    'https://l6tw4zzxz1.execute-api.us-east-1.amazonaws.com/prod/api/v1/sessions',
+    //'https://webapi.teamviewer.com/api/v1/ping',
+     true)
+  xhttp.setRequestHeader('Authorization', 'Bearer ' + token)
+  xhttp.setRequestHeader('Content-Type', 'application/json')
+  xhttp.send(JSON.stringify({
+    "groupname" : "Samanage",
+    "description" : "Hello, I have an issue with my printer, can you please assist?",
+    "end_customer" : { "name" : "Peter Niedhelp" },
+    "waiting_message" : "xxxxA",
+    "custom_api" : JSON.stringify({ "ticket_id" : "535824" })
+  }))
+}
+
 /*
   This component manages oauth authentication process
   it renders a button which opens the 3rd party login window
@@ -42,9 +66,10 @@ export default class OAuthAuthenticator extends React.PureComponent {
       var xhttp = new XMLHttpRequest()
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4) {
-          alert(`getToken completed(${this.status}): ${JSON.stringify(xhttp.responseText)}`)
+          alert(`getToken completed:(${this.status}): ${this.responseText}`)
           if (this.status == 200) {
-            component.credentials = xhttp.responseText
+            component.credentials = JSON.parse(this.responseText)
+            createTeamViewerSession(component.credentials.access_token)
             component.setState({state: OAuthAuthenticator.AUTHENTICATED})
           }
           else {
@@ -77,7 +102,7 @@ export default class OAuthAuthenticator extends React.PureComponent {
 
   focusExternalWindow = () => {
     if (this.externalWindow) {
-      this.externalWindow.focus
+      this.externalWindow.focus()
     } else {
       this.closeExternalWindow()
     }
