@@ -23,13 +23,13 @@ export default class OAuthAuthenticator extends React.PureComponent {
   }
 
   dispatchWidgetMessage = (message) => {
-    if (message.data.requestType == 'dispatchEventToWidgets') {
+    if (message.data.requestType === 'dispatchEventToWidgets') {
       this.onWidgetEvent(message.data.event)
     }
   }
 
   onWidgetEvent = (event) => {
-    if (event.eventType == 'oauthRedirect') {
+    if (event.eventType === 'oauthRedirect') {
       this.getToken(event)
     }
   }
@@ -42,14 +42,14 @@ export default class OAuthAuthenticator extends React.PureComponent {
 
   getToken = (event) => {
     // Note: this whole function should be moved to server side (because of 'client_secret')
+    const component = this
     try {
-      const component = this
       const code = event.query_params.code
       const xhttp = new XMLHttpRequest()
       xhttp.onreadystatechange = function() {
-        if (this.readyState == 4) {
+        if (this.readyState === 4) {
           alert(`getToken completed:(${this.status}): ${this.responseText}`)
-          if (this.status == 200) {
+          if (this.status === 200) {
             component.credentials = JSON.parse(this.responseText)
             component.setState({ state: OAuthAuthenticator.AUTHENTICATED, credentials: component.credentials }, component.onAuthStateChange)
           } else {
@@ -69,6 +69,7 @@ export default class OAuthAuthenticator extends React.PureComponent {
       xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
       xhttp.send(post_data)
     } catch (e) {
+      component.setState({ state: OAuthAuthenticator.AUTH_ERROR, credentials: null }, component.onAuthStateChange)
       console.error(e)
     }
   }
@@ -97,7 +98,6 @@ export default class OAuthAuthenticator extends React.PureComponent {
       state: platformWidgetHelper.toQueryString({ closeWindow: true }),
       display: 'popup'
     })
-    console.log({ OAuthAuthenticator_url })
     this.externalWindow = window.open(OAuthAuthenticator_url, '_blank', 'height=600,width=800,status=yes,toolbar=no,menubar=no,location=no')
     const self = this
     this.externalWindow.onbeforeunload = function() {
@@ -110,7 +110,7 @@ export default class OAuthAuthenticator extends React.PureComponent {
   render () {
     return (
       <button onClick={this.state.externalWindow ? this.focusExternalWindow : this.openOAuthAuthenticator}>
-Login
+        Login
       </button>
     )
   }
