@@ -1,6 +1,7 @@
 var webpack = require('webpack')
 var path = require('path')
-var parentDir=path.join(__dirname,'..')
+var parentDir = path.join(__dirname,'..')
+var widgetServerConfig = require('../bin/widget-server-config.json').dev
 
 module.exports = {
   mode:'development',
@@ -23,7 +24,22 @@ module.exports = {
     filename: 'bundle.js'
   },
   devServer: {
+    https: !!widgetServerConfig.origin.match('https://'),
     contentBase: parentDir,
-    historyApiFallback: true
+    historyApiFallback: true,
+    host: '127.0.0.1',
+    port: 8080,
+    disableHostCheck: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    proxy:{
+      '/platform_widgets/helper/**': {
+        //target: 'https://api.samanagestage.com/platform_widgets/helper/platformWidgetHelper-1.0.1.js',
+        target: widgetServerConfig.origin,
+        secure: false,
+        changeOrigin: true
+      }
+    }
   }
 }

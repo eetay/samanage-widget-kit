@@ -3,25 +3,24 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Eetay Natan",
-  "license": "Custom",
+  "license": "UNLICENSED",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "./node_modules/.bin/webpack-dev-server --config ./webpack/webpack.dev.config.js",
-    "create_widget": "node bin/install_widget.js",
+    "create-widget": "node bin/widget-commands.js create-widget",
     "build": "NODE_ENV=production webpack --display-error-details --colors --progress --config ./webpack/webpack.prod.config.js",
+    "submit-widget": "yarn clean && yarn build && node bin/widget-commands.js submit-widget",
     "clean": "rm -rf dist"
   },
   "dependencies": {
     "react": "16.3.2",
     "react-dom": "16.3.2",
-    "react-json-view": "^1.0",
-    "webpack": "4.8.3",
-    "webpack-cli": "2.1.3",
-    "webpack-dev-server": "3.1.4"
+    "react-json-view": "^1.0"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
     "babel-core": "6.26.3",
+    "babel-eslint": "8.2.5",
     "babel-loader": "7.1.4",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-es2015": "6.24.1",
@@ -29,10 +28,20 @@
     "babel-preset-stage-0": "6.24.1",
     "babel-register": "6.26.0",
     "css-loader": "0.28.11",
+    "eslint": "5.0.1",
+    "eslint-config-airbnb": "17.0.0",
+    "eslint-plugin-import": "2.13.0",
+    "eslint-plugin-jsx-a11y": "6.1.0",
+    "eslint-plugin-react": "7.10.0",
+    "eslint-plugin-security": "1.4.0",
     "less": "3.0.4",
     "less-loader": "4.1.0",
     "request": "2.87.0",
-    "style-loader": "0.21.0"
+    "samanage-api": "^2.2.0",
+    "style-loader": "0.21.0",
+    "webpack": "4.8.3",
+    "webpack-cli": "2.1.3",
+    "webpack-dev-server": "3.1.4"
   },
   "babel": {
     "presets": [
