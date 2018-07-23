@@ -42,7 +42,7 @@ export default class DetachableWidgetWindow extends React.PureComponent {
         </button>
       </div>,
       this.containerEl
-    ) : (<div>{this.props.children}<button onClick={this.openWindow}>Open me!</button></div>)
+    ) : (<div>{this.props.children}<button onClick={this.openWindow}>Open in popup!</button></div>)
   }
 
   componentDidMount () {

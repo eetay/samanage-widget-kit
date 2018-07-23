@@ -5,6 +5,9 @@ import REPL from './components/repl.js'
 import DetachableWidgetWindow from './components/detachable_widget_window.js'
 import OAuthAuthenticator from './components/oauth_authenticator.js'
 
+// Example of reusing Icon component
+import { Icon } from 'common-react-components'
+import classes from './index.scss'
 
 function createTeamViewerSession (token) {
   const xhttp = new XMLHttpRequest()
@@ -76,6 +79,7 @@ export default class SamangeWidget extends Component {
     console.log('RENDER')
     return (
       <div>
+       <Icon className={classes.logo} category='samanage' icon='bigLogo' fillColor='none' />
         <p width='100%' align='center' style={{ background: 'black', color: 'white' }}>
           {this.state.context_type}
           {' '}

@@ -14,8 +14,8 @@ module.exports = {
 				exclude: /node_modules/,
 				loader: 'babel-loader'
 			},{
-				test: /\.less$/,
-				loaders: ["style-loader", "css-loader", "less-loader"]
+				test: /\.(scss|css)$/,
+				loaders: ['style-loader', 'css-loader?modules=true&camelCase=true']
 			}
 		]
 	},
@@ -35,8 +35,12 @@ module.exports = {
     },
     proxy:{
       '/platform_widgets/helper/**': {
-        //target: 'https://api.samanagestage.com/platform_widgets/helper/platformWidgetHelper-1.0.1.js',
         target: widgetServerConfig.origin,
+        secure: false,
+        changeOrigin: true
+      },
+      '/assets/**': {
+        target: widgetServerConfig.origin + '/rlds',
         secure: false,
         changeOrigin: true
       }
