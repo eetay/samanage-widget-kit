@@ -15,6 +15,7 @@ module.exports = {
 				loader: 'babel-loader'
 			},{
 				test: /\.(scss|css)$/,
+        include: [ path.join(__dirname, '..') ],
 				loaders: ['style-loader', 'css-loader?modules=true&camelCase=true']
 			}
 		]
@@ -35,6 +36,11 @@ module.exports = {
     },
     proxy:{
       '/platform_widgets/helper/**': {
+        target: widgetServerConfig.origin,
+        secure: false,
+        changeOrigin: true
+      },
+      '/fejs_assets/dist-widgets/**': {
         target: widgetServerConfig.origin,
         secure: false,
         changeOrigin: true
