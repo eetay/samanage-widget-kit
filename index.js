@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import ReactJson from 'react-json-view'
 import REPL from './components/repl.js'
-import DetachableWidgetWindow from './components/detachable_widget_window.js'
 import ReactDetachableWindow from 'react-detachable-window'
 import OAuthAuthenticator from './components/oauth_authenticator.js'
 
