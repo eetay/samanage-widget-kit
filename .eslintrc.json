@@ -8,7 +8,8 @@
     "browser" : true
   },
   "globals": {
-    "platformWidgetHelper": false
+    "platformWidgetHelper": false,
+    "PlatformWidgetComponents": false
   },
   "rules": {
     "comma-dangle": 0,
