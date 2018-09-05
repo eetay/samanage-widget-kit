@@ -3,9 +3,15 @@
     "origin1": "https://api.samanagestage.com",
     "origin": "http://localhost:3000",
     "token": "",
-    "info": {
-      "description": "My Samanage Widget",
-      "name": "EetayWidget"
-     }
+    "widgets" : {
+      "example1": {
+        "description": "First example",
+        "name": "Example1"
+      },
+      "example2": {
+        "description": "Second example",
+        "name": "Example2"
+      }
+    }
   }
 }
