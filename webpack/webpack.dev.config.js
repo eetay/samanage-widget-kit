@@ -25,7 +25,7 @@ const devServer = {
       changeOrigin: true
     },
     '/assets/**': {
-      target: widgetServerConfig.origin + '/rlds',
+      target: widgetServerConfig.origin,
       secure: false,
       changeOrigin: true
     }
