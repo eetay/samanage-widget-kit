@@ -13,8 +13,11 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "common-react-components": "git+ssh://git@github.com/SAManage/common-react-components.git#14d3b3786edf3fed5d74d4e0b8100bc0712f10d9",
     "react": "16.3.2",
+    "react-detachable-window": "git+ssh://git@github.com/eetay/react-detachable-window.git#master",
     "react-dom": "16.3.2",
+    "react-hot-loader": "4.3.3",
     "react-json-view": "^1.0"
   },
   "devDependencies": {
@@ -27,7 +30,7 @@
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-0": "6.24.1",
     "babel-register": "6.26.0",
-    "css-loader": "0.28.11",
+    "css-loader": "1.0.0",
     "eslint": "5.0.1",
     "eslint-config-airbnb": "17.0.0",
     "eslint-plugin-import": "2.13.0",
@@ -38,6 +41,7 @@
     "less-loader": "4.1.0",
     "request": "2.87.0",
     "samanage-api": "^2.2.0",
+    "sass-loader": "7.0.3",
     "style-loader": "0.21.0",
     "webpack": "4.8.3",
     "webpack-cli": "2.1.3",

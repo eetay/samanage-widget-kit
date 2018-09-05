@@ -109,7 +109,7 @@ export default class OAuthAuthenticator extends React.PureComponent {
 
   render () {
     return (
-      <button onClick={this.state.externalWindow ? this.focusExternalWindow : this.openOAuthAuthenticator}>
+      <button type='button' onClick={this.state.externalWindow ? this.focusExternalWindow : this.openOAuthAuthenticator}>
         Login
       </button>
     )

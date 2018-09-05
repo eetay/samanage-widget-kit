@@ -1,10 +1,40 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import ReactJson from 'react-json-view'
-import REPL from './components/repl.js'
-import DetachableWidgetWindow from './components/detachable_widget_window.js'
-import OAuthAuthenticator from './components/oauth_authenticator.js'
+import REPL from 'shared/components/repl.js'
+import ReactDetachableWindow from 'react-detachable-window'
+import OAuthAuthenticator from 'shared/components/oauth_authenticator.js'
 
+// Example of reusing Icon component
+import { Icon } from 'common-react-components'
+import classes from './index.scss'
+
+const EventBus = {
+  refs: {},
+  setState: function(id, state) {
+    var bus = EventBus
+    return bus.call(id, 'setState', state)
+  },
+  call: function(id, funcName, ...params) {
+    var bus = EventBus
+    var instance = bus.refs[id].current
+    return instance[funcName].apply(instance, ...params)
+  },
+  getRef: function (id, component) {
+    var bus = EventBus
+    if ((component == null) && bus.refs[id]) {
+      delete bus.refs[id]
+    }
+    var ref = bus.refs[id]
+    if (!ref) {
+      ref = React.createRef()
+      bus.refs[id] = ref
+    }
+    return ref
+  }
+}
+
+window.bus = EventBus
 
 function createTeamViewerSession (token) {
   const xhttp = new XMLHttpRequest()
@@ -76,14 +106,16 @@ export default class SamangeWidget extends Component {
     console.log('RENDER')
     return (
       <div>
+      i*************** EXAMPLE 1 ***********
+       <Icon className={classes.logo} category='samanage' icon='bigLogo' fillColor='none' />
         <p width='100%' align='center' style={{ background: 'black', color: 'white' }}>
           {this.state.context_type}
           {' '}
           {this.state.context_id}
         </p>
-        <DetachableWidgetWindow windowOptions={{ width: 800, height: 600 }}>
+        <ReactDetachableWindow ref={EventBus.getRef('shlomo', this)} windowOptions={{ width: 800, height: 600 }}>
           <REPL id='repl' context={this.state.context} />
-        </DetachableWidgetWindow>
+        </ReactDetachableWindow>
         <OAuthAuthenticator
           on_state_change={({ state, credentials }) => {
             console.log(`TeamViewer auth state: ${state}`)
