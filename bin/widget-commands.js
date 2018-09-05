@@ -1,5 +1,11 @@
 const SamanageAPI = require('samanage-api')
 const webpack_config = require('../webpack/webpack.dev.config.js')
+const weblog = require('webpack-log');
+const log = weblog({ name: 'widget-commands', level: 'info' }) // webpack-dev-server
+SamanageAPI.debug = true
+SamanageAPI.log = log.debug
+ 
+log.info('==== widget-commands run ====');
 
 CONFIG = './widget-server-config.json'
 try {
@@ -22,7 +28,7 @@ if (!config.token) {
   process.exit(1)
 }
 
-SamanageAPI.debug = true
+
 const samanage = new SamanageAPI.Connection(config.token, config.origin)
 const create_widget = SamanageAPI.create('platform_widget', 'admin')
 const create_widget_request = create_widget(
@@ -30,8 +36,8 @@ const create_widget_request = create_widget(
 )
 samanage.callSamanageAPI(create_widget_request)
   .then(({ data }) => {
-    console.log('Success', data)
+    log.info('Success', data)
   })
   .catch((error) => {
-    console.log('Error ', error)
+    log.error('Error ', error)
   })
