@@ -12,14 +12,14 @@ git clone git@github.com:<MyGithubAccount>/samanage-widget-kit.git
 - edit ```./bin/widget-server-config.json```:
   - set 'origin' to 'https://api.samanagestage.com' (local rails server: 'http://localhost:3000')
     - Note: You must have permissions to create widgets the origin server you set
-  - set 'info' to whatever widget info you want. 
+  - set 'my_first_widget' object attributes to whatever widget info you want.
     - Note: 'name' uniquely identifies your widget and cannot be changed once the widget is created
 
 execute in command prompt:
 ``` sh
 yarn
 export TOKEN="<my-api-token>"
-yarn create-widget
+yarn create-widget my_first_widget
 ```
 
 ## Development
