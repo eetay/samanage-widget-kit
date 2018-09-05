@@ -1,29 +1,16 @@
 var webpack = require('webpack')
 var path = require('path')
-var parentDir=path.join(__dirname,'..')
+const { commonConfig, parentDir } = require('./webpack.common.js')
 
-module.exports = {
-  mode:'development',
-	entry: [
-		path.join(__dirname, '../index.js')
-	],
-	module: {
-		rules: [{
-			test: /\.(js|jsx)$/,
-				exclude: /node_modules/,
-				loader: 'babel-loader'
-			},{
-				test: /\.(scss|css)$/,
-				loaders: ["style-loader", "css-loader", "less-loader"]
-			}
-		]
-	},
-  output: {
-    path: parentDir + '/dist',
-    filename: 'bundle.js'
-  },
-  devServer: {
-    contentBase: parentDir,
-    historyApiFallback: true
+mergedConfig = Object.assign(
+  {}, 
+  commonConfig, {
+    mode:'development',
+    devServer: {
+      contentBase: parentDir,
+      historyApiFallback: true
+    }
   }
-}
+)
+
+module.exports = mergedConfig
