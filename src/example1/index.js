@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import ReactJson from 'react-json-view'
-import REPL from './components/repl.js'
+import REPL from 'shared/components/repl.js'
 import ReactDetachableWindow from 'react-detachable-window'
-import OAuthAuthenticator from './components/oauth_authenticator.js'
+import OAuthAuthenticator from 'shared/components/oauth_authenticator.js'
 
 // Example of reusing Icon component
 import { Icon } from 'common-react-components'
@@ -106,6 +106,7 @@ export default class SamangeWidget extends Component {
     console.log('RENDER')
     return (
       <div>
+      i*************** EXAMPLE 1 ***********
        <Icon className={classes.logo} category='samanage' icon='bigLogo' fillColor='none' />
         <p width='100%' align='center' style={{ background: 'black', color: 'white' }}>
           {this.state.context_type}
