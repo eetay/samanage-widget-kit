@@ -1,0 +1,55 @@
+.topDiv {
+  max-width: 332px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.svg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.topText {
+  text-align: center;
+  font-family: 'Open Sans';
+  font-size: 13px !important;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.pinText {
+  text-align: center;
+  display: block;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.input {
+  max-width: 332px;
+  min-width: 220px;
+  height: 34px;
+  border-radius: 4px !important;
+  font-size: 14px !important;
+  margin-top: 10px !important;
+  padding-left: 7px !important;
+  margin-bottom: 20px !important;
+}
+
+.button {
+  width: 100%;
+  max-width: 332px;
+  min-width: 220px !important;
+  height: 34px !important;
+  margin-bottom: 20px !important;
+  margin-left: 0px !important;
+}
+
+.errorText {
+  font-size: 11px;
+  font-family: 'Open Sans';
+  text-align: center;
+  color: #C23934;
+  margin-bottom: 19px;
+}

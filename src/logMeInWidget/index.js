@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import LogMeInWidget from 'shared/components/LogMeInWidget'
+import LogMeInWidget from './LogMeInWidget'
 
 export default class SamangeWidget extends Component {
   constructor (props) {
