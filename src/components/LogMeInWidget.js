@@ -19,23 +19,13 @@ export default class LogMeInWidget extends PureComponent {
       password: '',
       view: VIEW_MODE.LOGIN,
       code: '',
-      pin: ''
+      pin: '',
+      error: false
     }
   }
 
   static propTypes = {
-    context: PropTypes.shape({
-      context_type: PropTypes.string,
-      context_id: PropTypes.string
-    })
-  }
-
-  componentDidUpdate () {
-  }
-
-
-  componentDidMount () {
-    // this.setState({ view: VIEW_MODE.LOGIN })
+    contextId: PropTypes.string.isRequired
   }
 
   onEmailChange = (event) => {
@@ -47,10 +37,12 @@ export default class LogMeInWidget extends PureComponent {
   }
 
   getValueFromResponse = (response, key) => {
+    console.log('getValueFromResponse: ', response, typeof response)
     if (response.indexOf('OK') === -1) {
       console.log('response isnt GOOD!')
       // var e = new Error(data)
       // handleError(e)
+      this.setState({ error: true })
       return null
     }
     const splitArr = response.split(key)
@@ -61,17 +53,16 @@ export default class LogMeInWidget extends PureComponent {
   getResponse = (response) => {
     // console.log('getAuth: ', typeof response, response)
     const code = this.getValueFromResponse(response, 'AUTHCODE:')
-    console.log('response GOOD!', code)
+    if (!code) return
     this.setState({ view: VIEW_MODE.GENERATE_PIN, code })
   }
 
   getPinResponse = (response) => {
-    console.log(`>>> getPin response: \n${response}\n`, typeof response)
     const pin = this.getValueFromResponse(response, 'PINCODE:')
     const link = `https://secure.logmeinrescue.com/R?i=2&Code=${pin}`
     comment = {
       comment: {
-        body: `<![CDATA[<p>Click <a href="${link}">here</a> to launch your Rescue session.</p>`,
+        body: `<![CDATA[<p>Click the link below to launch your Rescue session.\n<a href="${link}">${link}</a></p>`,
         is_private: false
       }
     }
@@ -89,15 +80,14 @@ export default class LogMeInWidget extends PureComponent {
 
   generatePin = () => {
     const { code } = this.state
-    const { context } = this.props
-    const pinUrl = `${URL_PREFIX}/requestPINCode.aspx?notechconsole=1&authcode=${code}&tracking0=${context.context_id}`
+    const { contextId } = this.props
+    const pinUrl = `${URL_PREFIX}/requestPINCode.aspx?notechconsole=1&authcode=${code}&tracking0=${contextId}`
     platformWidgetHelper.callExternalAPI('GET', pinUrl, null, this.getPinResponse)
   }
 
   sendLinkToComment = () => {
-    const { context } = this.props
-    console.log('Adding Comment!!!')
-    platformWidgetHelper.callSamanageAPI('POST', `/incidents/${context.context_id}/comments.json`, comment, (response) => {
+    const { contextId } = this.props
+    platformWidgetHelper.callSamanageAPI('POST', `/incidents/${contextId}/comments.json`, comment, (response) => {
       console.log(`>>> Samanage API response:\n + ${JSON.stringify(response)}`)
     })
   }
@@ -132,9 +122,16 @@ export default class LogMeInWidget extends PureComponent {
   )
 
   renderLogin = () => {
-    const { email, password } = this.state
+    const { email, password, error } = this.state
     return (
       <div className={classes.topDiv}>
+        { error ? (
+          <PlatformWidgetComponents.SmallText>
+            {' '}
+Incorrect email or password. Please try again
+            {' '}
+          </PlatformWidgetComponents.SmallText>
+        ) : null }
         <PlatformWidgetComponents.TextField label='Email' onChange={this.onEmailChange} value={email} className={classes.topInput} />
         <PlatformWidgetComponents.TextField label='Password' onChange={this.onPasswordChange} value={password} type='password' className={classes.bottomInput} />
         <PlatformWidgetComponents.MainButton onClick={this.onButtonClick} className={classes.button}>
