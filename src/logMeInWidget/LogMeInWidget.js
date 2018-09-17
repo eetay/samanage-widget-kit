@@ -26,6 +26,8 @@ const errors = {
 const URL_PREFIX = 'https://secure.logmeinrescue.com'
 let comment = {}
 
+export const STORAGE_KEY = 'LogMeIN'
+
 export default class LogMeInWidget extends PureComponent {
   constructor (props) {
     super(props)
@@ -40,7 +42,13 @@ export default class LogMeInWidget extends PureComponent {
   }
 
   static propTypes = {
-    contextId: PropTypes.string.isRequired
+    contextId: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired
+  }
+
+  componentDidMount () {
+    const { code } = this.props
+    if (code.length > 0) this.setState({ view: VIEW_MODE.GENERATE_PIN, code })
   }
 
   componentDidUpdate () {
@@ -62,10 +70,8 @@ export default class LogMeInWidget extends PureComponent {
   }
 
   getValueFromResponse = (response, key) => {
-    console.log('getValueFromResponse: ', response, typeof response)
     if (response.indexOf('OK') === -1) {
       return this.handleError(response)
-      // this.setState({ view: VIEW_MODE.LOGIN, error: true })
     }
     const splitArr = response.split(key)
     if (splitArr.length > 0) return splitArr[1]
@@ -73,9 +79,10 @@ export default class LogMeInWidget extends PureComponent {
   }
 
   getResponse = (response) => {
-    // console.log('getAuth: ', typeof response, response)
     const code = this.getValueFromResponse(response, 'AUTHCODE:')
     if (!code) return
+    const storageValue = { code }
+    platformWidgetHelper.setStorage(STORAGE_KEY, JSON.stringify(storageValue), null) // () => console.log('Added to storage'))
     this.setState({ view: VIEW_MODE.GENERATE_PIN, code })
   }
 
@@ -108,9 +115,9 @@ export default class LogMeInWidget extends PureComponent {
 
   sendLinkToComment = () => {
     const { contextId } = this.props
-    platformWidgetHelper.callSamanageAPI('POST', `/incidents/${contextId}/comments.json`, comment, (response) => {
-      // console.log(`>>> Samanage API response:\n + ${JSON.stringify(response)}`)
-      window.parent.location = document.referrer
+    platformWidgetHelper.callSamanageAPI('POST', `/incidents_moria/${contextId}/comments.json`, comment, (response) => {
+      if (response.errorStatus) this.handleError('ERROR')
+      // window.parent.location = document.referrer
     })
   }
 
