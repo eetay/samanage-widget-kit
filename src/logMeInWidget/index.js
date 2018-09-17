@@ -1,24 +1,20 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import contextTypes from 'shared/constants/contextTypes'
 import LogMeInWidget, { STORAGE_KEY } from './LogMeInWidget'
 
 export default class SamangeWidget extends Component {
   constructor (props) {
     super(props)
-    this.state = { context: {}, code: null }
+    this.state = { code: null }
   }
 
   onWidgetContextObject = (object) => {
-    this.setState({ context: object })
+    if (object.context_type !== contextTypes.INCIDENT) platformWidgetHelper.hide()
   }
 
   componentDidUpdate () {
-    const { context } = this.state
-    if (context.context_type !== 'Incident') {
-      platformWidgetHelper.hide()
-    } else {
-      platformWidgetHelper.updateHeight()
-    }
+    platformWidgetHelper.updateHeight()
   }
 
   componentDidMount () {
@@ -36,11 +32,11 @@ export default class SamangeWidget extends Component {
   }
 
   render () {
-    const { context, code } = this.state
-    if (!context.context_id || code === null) return null
+    const { code } = this.state
+    if (code === null) return null
     return (
       <div className='slds slds-samanage samanage-media-query'>
-        <LogMeInWidget contextId={context.context_id} code={code} />
+        <LogMeInWidget code={code} />
       </div>
     )
   }

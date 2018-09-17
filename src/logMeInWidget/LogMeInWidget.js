@@ -43,7 +43,6 @@ export default class LogMeInWidget extends PureComponent {
   }
 
   static propTypes = {
-    contextId: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired
   }
 
@@ -83,7 +82,7 @@ export default class LogMeInWidget extends PureComponent {
     const code = this.getValueFromResponse(response, 'AUTHCODE:')
     if (!code) return
     const storageValue = { code }
-    platformWidgetHelper.setStorage(STORAGE_KEY, JSON.stringify(storageValue), null) // () => console.log('Added to storage'))
+    platformWidgetHelper.setStorage(STORAGE_KEY, JSON.stringify(storageValue), null)
     this.setState({ view: VIEW_MODE.GENERATE_PIN, code })
   }
 
@@ -102,8 +101,7 @@ export default class LogMeInWidget extends PureComponent {
 
   generatePin = () => {
     const { code } = this.state
-    const { contextId } = this.props
-    const pinUrl = `${URL_PREFIX}/api/requestPINCode.aspx?notechconsole=1&authcode=${code}&tracking0=${contextId}`
+    const pinUrl = `${URL_PREFIX}/api/requestPINCode.aspx?notechconsole=1&authcode=${code}`
     platformWidgetHelper.callExternalAPI('GET', pinUrl, null, this.getPinResponse)
   }
 
@@ -134,7 +132,7 @@ export default class LogMeInWidget extends PureComponent {
             Your Session Pin is:
         </PlatformWidgetComponents.RegularText>
         <PlatformWidgetComponents.LargeText className={classes.pinText}>
-          {this.state.pin}
+          {pin}
         </PlatformWidgetComponents.LargeText>
         <CopyToClipboard text={link}>
           <PlatformWidgetComponents.MainButton className={classes.button} onClick={this.handleCopy}>
