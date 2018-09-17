@@ -121,6 +121,10 @@ export default class LogMeInWidget extends PureComponent {
     })
   }
 
+  handleKeyPress = (event) => {
+    if (event.key === 'Enter') this.onButtonClick()
+  }
+
   renderSessionPin = () => (
     <div className={classes.topDiv}>
       <PlatformWidgetComponents.RegularText className={classes.topText}>
@@ -165,8 +169,8 @@ export default class LogMeInWidget extends PureComponent {
     return (
       <div className={classes.topDiv}>
         { this.renderErrorMessage(error) }
-        <PlatformWidgetComponents.TextField label='Email' onChange={this.onEmailChange} value={email} className={classes.input} />
-        <PlatformWidgetComponents.TextField label='Password' onChange={this.onPasswordChange} value={password} type='password' className={classes.input} />
+        <PlatformWidgetComponents.TextField label='Email' onChange={this.onEmailChange} value={email} className={classes.input} onKeyPress={this.handleKeyPress} />
+        <PlatformWidgetComponents.TextField label='Password' onChange={this.onPasswordChange} value={password} type='password' className={classes.input} onKeyPress={this.handleKeyPress} />
         <Button onClick={this.onButtonClick} className={classes.button} disabled={shouldDisableButton}>
           Sign In
         </Button>
