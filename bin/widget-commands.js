@@ -60,3 +60,8 @@ function create_widget(widget) {
 if (parsedArgs.command == 'create-widget') {
   create_widget(parsedArgs.widget)
 }
+else {
+  log.info('widget-commands.js usage:')
+  log.info(`create-widget [widget-name]`)
+  process.exit(0)
+}
