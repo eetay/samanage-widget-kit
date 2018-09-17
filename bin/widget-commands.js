@@ -78,7 +78,7 @@ if (parsedArgs.command == 'create-widget' || parsedArgs.command == 'update-widge
   createOrUpdateWidget(parsedArgs.widget)
 }
 else if (parsedArgs.command == 'deploy-widget') {
-  const targetDir = `../Frontend/public/platform_widgets/${parsedArgs.widget}`
+  const targetDir = '../Frontend/public/platform_widgets'
   var targetDirExists = false
   try {
     targetDirExists = fs.statSync(targetDir).isDirectory()
@@ -89,7 +89,8 @@ else if (parsedArgs.command == 'deploy-widget') {
       process.exit(1)
     }
   }
-  fs.copySync(`./dist/${widget}`, targetDir)
+  log.info(`cp ./dist/${parsedArgs.widget} -> ${targetDir}/${parsedArgs.widget}`)
+  fs.copySync(`./dist/${parsedArgs.widget}`, `${targetDir}/${parsedArgs.widget}`)
   createOrUpdateWidget(parsedArgs.widget, true)
 }
 else {
