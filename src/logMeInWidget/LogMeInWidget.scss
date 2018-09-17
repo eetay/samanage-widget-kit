@@ -8,6 +8,7 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 10px;
 }
 
 .topText {
@@ -17,12 +18,13 @@
   margin-top: 40px;
   margin-bottom: 20px;
   display: block;
+  color: #54698D;
 }
 
 .pinText {
   text-align: center;
   display: block;
-  font-size: 24px;
+  font-size: 24px !important;
   margin-bottom: 30px;
 }
 
@@ -32,7 +34,7 @@
   height: 34px;
   border-radius: 4px !important;
   font-size: 14px !important;
-  margin-top: 10px !important;
+  margin-top: 3px !important;
   padding-left: 7px !important;
   margin-bottom: 20px !important;
 }
@@ -44,12 +46,21 @@
   height: 34px !important;
   margin-bottom: 20px !important;
   margin-left: 0px !important;
+  margin-top: 8px !important;
 }
 
 .errorText {
-  font-size: 11px;
+  font-size: 13px;
   font-family: 'Open Sans';
   text-align: center;
   color: #C23934;
+  margin-bottom: 19px;
+}
+
+.copyText{
+  font-size: 13px;
+  font-family: 'Open Sans';
+  text-align: center;
+  color: #2bba5a;
   margin-bottom: 19px;
 }

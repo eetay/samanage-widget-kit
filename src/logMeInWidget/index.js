@@ -27,7 +27,6 @@ export default class SamangeWidget extends Component {
   }
 
   getTokenFromStorage = (response) => {
-    console.log(`\nlogmein >>> getting local storage: ${response}`)
     if (response) {
       response = JSON.parse(response)
       this.setState({ code: response.code ? response.code : '' })

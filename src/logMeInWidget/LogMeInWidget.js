@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import CopyToClipboard from 'react-copy-to-clipboard'
 import LogMeInIcon from './LogMeInIcon'
 import classes from './LogMeInWidget.scss'
 
@@ -24,7 +25,6 @@ const errors = {
 }
 
 const URL_PREFIX = 'https://secure.logmeinrescue.com'
-let comment = {}
 
 export const STORAGE_KEY = 'LogMeIN'
 
@@ -37,7 +37,8 @@ export default class LogMeInWidget extends PureComponent {
       view: VIEW_MODE.LOGIN,
       code: '',
       pin: '',
-      error: ''
+      error: '',
+      copied: false
     }
   }
 
@@ -89,13 +90,6 @@ export default class LogMeInWidget extends PureComponent {
   getPinResponse = (response) => {
     const pin = this.getValueFromResponse(response, 'PINCODE:')
     if (!pin) return
-    const link = `${URL_PREFIX}/R?i=2&Code=${pin}`
-    comment = {
-      comment: {
-        body: `<![CDATA[<p>Click the link below to launch your Rescue session.\n<a href="${link}">${link}</a></p>`,
-        is_private: false
-      }
-    }
     this.setState({ view: VIEW_MODE.DISPLAY_PIN, pin })
   }
 
@@ -113,34 +107,46 @@ export default class LogMeInWidget extends PureComponent {
     platformWidgetHelper.callExternalAPI('GET', pinUrl, null, this.getPinResponse)
   }
 
-  sendLinkToComment = () => {
-    const { contextId } = this.props
-    platformWidgetHelper.callSamanageAPI('POST', `/incidents_moria/${contextId}/comments.json`, comment, (response) => {
-      if (response.errorStatus) this.handleError('ERROR')
-      // window.parent.location = document.referrer
-    })
-  }
-
   handleKeyPress = (event) => {
     if (event.key === 'Enter') this.onButtonClick()
   }
 
-  renderSessionPin = () => (
-    <div className={classes.topDiv}>
-      <PlatformWidgetComponents.RegularText className={classes.topText}>
-          Your Session Pin is:
-      </PlatformWidgetComponents.RegularText>
-      <PlatformWidgetComponents.LargeText className={classes.pinText}>
-        {this.state.pin}
-      </PlatformWidgetComponents.LargeText>
-      <PlatformWidgetComponents.MainButton onClick={this.sendLinkToComment} className={classes.button}>
-          Send Link via Comment
-      </PlatformWidgetComponents.MainButton>
-      <PlatformWidgetComponents.RegularButton onClick={this.generatePin} className={classes.button}>
-        Generate New Code
-      </PlatformWidgetComponents.RegularButton>
-    </div>
-  )
+  handleCopy = () => {
+    this.setState({ copied: true })
+  }
+
+  renderCopiedMessage = (copied) => {
+    if (!copied) return null
+    return (
+      <div className={classes.copyText}>
+        {'Session link was successfully copied'}
+      </div>
+    )
+  }
+
+  renderSessionPin = () => {
+    const { pin, copied } = this.state
+    const link = `${URL_PREFIX}/R?i=2&Code=${pin}`
+    return (
+      <div className={classes.topDiv}>
+        { this.renderCopiedMessage(copied) }
+        <PlatformWidgetComponents.RegularText className={classes.topText}>
+            Your Session Pin is:
+        </PlatformWidgetComponents.RegularText>
+        <PlatformWidgetComponents.LargeText className={classes.pinText}>
+          {this.state.pin}
+        </PlatformWidgetComponents.LargeText>
+        <CopyToClipboard text={link}>
+          <PlatformWidgetComponents.MainButton className={classes.button} onClick={this.handleCopy}>
+              Copy Link
+          </PlatformWidgetComponents.MainButton>
+        </CopyToClipboard>
+        <PlatformWidgetComponents.RegularButton onClick={this.generatePin} className={classes.button}>
+          Generate New Code
+        </PlatformWidgetComponents.RegularButton>
+      </div>
+    )
+  }
 
   renderGenerateSession = () => (
     <div className={classes.topDiv}>
