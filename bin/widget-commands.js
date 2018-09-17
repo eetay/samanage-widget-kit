@@ -78,7 +78,7 @@ if (parsedArgs.command == 'create-widget' || parsedArgs.command == 'update-widge
   createOrUpdateWidget(parsedArgs.widget)
 }
 else if (parsedArgs.command == 'deploy-widget') {
-  const targetDir = `../Frontenxd/public/platform_widgets/${parsedArgs.widget}`
+  const targetDir = `../Frontend/public/platform_widgets/${parsedArgs.widget}`
   var targetDirExists = false
   try {
     targetDirExists = fs.statSync(targetDir).isDirectory()
