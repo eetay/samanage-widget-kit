@@ -13,8 +13,8 @@
         "name": "my first widget"
       },
       "logMeInWidget": {
-        "description": "Newest Widget",
-        "name": "LOG ME IN - YULI"
+        "description": "Samanage Log Me In Rescue integration widget",
+        "name": "LogMeIn Widget"
       }
     }
   }
