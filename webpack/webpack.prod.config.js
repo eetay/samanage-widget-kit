@@ -8,7 +8,7 @@ function newHtmlPlugin(folder) {
   return new HtmlWebPackPlugin({
     chunks: [folder],
     template: `./src/${folder}/index.html`,
-    filename: `./${folder}.html`
+    filename: `./${folder}/index.html`
   })
 }
 

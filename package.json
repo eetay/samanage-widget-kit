@@ -8,6 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "./node_modules/.bin/webpack-dev-server --config ./webpack/webpack.dev.config.js",
     "create-widget": "node bin/widget-commands.js create-widget",
+    "update-widget": "node bin/widget-commands.js update-widget",
+    "deploy-widget": "node bin/widget-commands.js deploy-widget",
     "build": "NODE_ENV=production webpack --display-error-details --colors --progress --config ./webpack/webpack.prod.config.js",
     "submit-widget": "yarn clean && yarn build && node bin/widget-commands.js submit-widget",
     "clean": "rm -rf dist"
@@ -37,6 +39,7 @@
     "eslint-plugin-jsx-a11y": "6.1.0",
     "eslint-plugin-react": "7.10.0",
     "eslint-plugin-security": "1.4.0",
+    "fs-extra": "7.0.0",
     "html-webpack-plugin": "3.2.0",
     "less": "3.0.4",
     "less-loader": "4.1.0",

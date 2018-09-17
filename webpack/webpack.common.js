@@ -33,7 +33,7 @@ const commonConfig = {
   },
   output: {
     path: parentDir + '/dist',
-    filename: '[name].bundle.js'
+    filename: '[name]/[name].bundle.js'
   }
 }
 
