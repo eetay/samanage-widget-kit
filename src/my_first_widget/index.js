@@ -4,9 +4,6 @@ import ReactJson from 'react-json-view'
 import REPL from 'shared/components/repl.js'
 import ReactDetachableWindow from 'react-detachable-window'
 import OAuthAuthenticator from 'shared/components/oauth_authenticator.js'
-
-// Example of reusing Icon component
-import { Icon } from 'common-react-components'
 import classes from './index.scss'
 
 const EventBus = {

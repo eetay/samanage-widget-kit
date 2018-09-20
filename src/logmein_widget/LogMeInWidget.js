@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import classnames from 'classnames'
 import LogMeInIcon from './LogMeInIcon'
 import classes from './LogMeInWidget.scss'
 
@@ -117,7 +118,8 @@ export default class LogMeInWidget extends PureComponent {
     if (!copied) return null
     return (
       <div className={classes.copyText}>
-        {'Session link was successfully copied'}
+        <PlatformWidgetComponents.Icon icon='check' style={{ fill: 'green', 'margin-right': '8px', width: '20px', height: '20px', 'padding-bottom': '3px' }} />
+        {'Copied successfully'}
       </div>
     )
   }
@@ -128,7 +130,7 @@ export default class LogMeInWidget extends PureComponent {
     return (
       <div className={classes.topDiv}>
         { this.renderCopiedMessage(copied) }
-        <PlatformWidgetComponents.RegularText className={classes.topText}>
+        <PlatformWidgetComponents.RegularText className={classnames(classes.topText, { [classes.marginTop]: !copied })}>
             Your Session Pin is:
         </PlatformWidgetComponents.RegularText>
         <PlatformWidgetComponents.LargeText className={classes.pinText}>
@@ -142,18 +144,20 @@ export default class LogMeInWidget extends PureComponent {
         <PlatformWidgetComponents.RegularButton onClick={this.generatePin} className={classes.button}>
           Generate New Code
         </PlatformWidgetComponents.RegularButton>
+        <LogMeInIcon />
       </div>
     )
   }
 
   renderGenerateSession = () => (
     <div className={classes.topDiv}>
-      <PlatformWidgetComponents.RegularText className={classes.topText}>
+      <PlatformWidgetComponents.RegularText className={classes.text}>
           Click to generate your Session Code. It will be used to conduct a remote support session
       </PlatformWidgetComponents.RegularText>
       <PlatformWidgetComponents.MainButton onClick={this.generatePin} className={classes.button}>
           Generate Session Code
       </PlatformWidgetComponents.MainButton>
+      <LogMeInIcon />
     </div>
   )
 

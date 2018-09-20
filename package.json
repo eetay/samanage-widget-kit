@@ -13,7 +13,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "common-react-components": "git+ssh://git@github.com/SAManage/common-react-components.git#14d3b3786edf3fed5d74d4e0b8100bc0712f10d9",
+    "classnames": "2.2.5",
     "react": "16.3.2",
     "react-detachable-window": "git+ssh://git@github.com/eetay/react-detachable-window.git#master",
     "react-dom": "16.3.2",

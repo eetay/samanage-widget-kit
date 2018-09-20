@@ -9,9 +9,24 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
+  color: #54698D;
 }
 
 .topText {
+  text-align: center;
+  font-family: 'Open Sans';
+  font-size: 13px !important;
+  margin-bottom: 20px;
+  display: block;
+  color: #54698D;
+  margin-top: 20px;
+}
+
+.marginTop {
+  margin-top: 40px;
+}
+
+.text {
   text-align: center;
   font-family: 'Open Sans';
   font-size: 13px !important;
@@ -19,6 +34,9 @@
   margin-bottom: 20px;
   display: block;
   color: #54698D;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .pinText {
@@ -26,6 +44,7 @@
   display: block;
   font-size: 24px !important;
   margin-bottom: 30px;
+  color: #54698D;
 }
 
 .input {
@@ -61,6 +80,13 @@
   font-size: 13px;
   font-family: 'Open Sans';
   text-align: center;
-  color: #2bba5a;
-  margin-bottom: 19px;
+  margin-right: 10px;
+}
+
+.Icon {
+  fill: green;
+  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  padding-bottom: 3px;
 }
