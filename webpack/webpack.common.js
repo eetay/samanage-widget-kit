@@ -4,7 +4,9 @@ var parentDir=path.join(__dirname,'..')
 const commonConfig = {
 	entry: {
 		example1: path.join(__dirname, '../src/example1/index.js'),
-		example2: path.join(__dirname, '../src/example2/index.js')
+		example2: path.join(__dirname, '../src/example2/index.js'),
+		my_first_widget: path.join(__dirname, '../src/my_first_widget/index.js'),
+		teamviewer: path.join(__dirname, '../src/teamviewer/index.js')
 	},
 	module: {
 		rules: [{
