@@ -27,7 +27,7 @@ const errors = {
 
 const URL_PREFIX = 'https://secure.logmeinrescue.com'
 
-export const STORAGE_KEY = 'LogMeIN'
+export const STORAGE_KEY = 'LogMeIn'
 
 export default class LogMeInWidget extends PureComponent {
   constructor (props) {
@@ -118,8 +118,8 @@ export default class LogMeInWidget extends PureComponent {
     if (!copied) return null
     return (
       <div className={classes.copyText}>
-        <PlatformWidgetComponents.Icon icon='check' style={{ fill: 'green', 'margin-right': '8px', width: '20px', height: '20px', 'padding-bottom': '3px' }} />
-        {'Copied successfully'}
+        <PlatformWidgetComponents.Icon icon='check' style={{ fill: 'green', marginRight: '8px', width: '20px', height: '20px', paddingBottom: '3px' }} />
+        Copied successfully
       </div>
     )
   }
