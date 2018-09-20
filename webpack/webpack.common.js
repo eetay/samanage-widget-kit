@@ -13,7 +13,16 @@ const commonConfig = {
 				loader: 'babel-loader'
 			},{
 				test: /\.(scss|css)$/,
-				loaders: ["style-loader", "css-loader", "less-loader"]
+				use: [
+					{ loader: 'style-loader'},
+					{
+						loader: 'css-loader',
+						options: {
+							modules: true,
+							importLoaders: 2
+						}
+					}
+				]
 			}
 		]
 	},
@@ -24,7 +33,7 @@ const commonConfig = {
   },
   output: {
     path: parentDir + '/dist',
-    filename: '[name].bundle.js'
+    filename: '[name]/[name].bundle.js'
   }
 }
 
