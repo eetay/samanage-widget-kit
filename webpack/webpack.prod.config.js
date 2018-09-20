@@ -1,4 +1,3 @@
-//const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
@@ -21,7 +20,6 @@ mergedConfig = Object.assign(
       historyApiFallback: true
     },
     plugins : [
-      //new UglifyJsPlugin(),
       ...['example1', 'example2'].map(newHtmlPlugin),
     ]
   }
