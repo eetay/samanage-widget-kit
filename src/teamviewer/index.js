@@ -4,6 +4,7 @@ import ReactJson from 'react-json-view'
 import REPL from 'shared/components/repl.js'
 import ReactDetachableWindow from 'react-detachable-window'
 import OAuthAuthenticator from 'shared/components/oauth_authenticator.js'
+import classes from './index.scss'
 
 const VIEW_MODE = {
   LOGIN: 'LOGIN',
@@ -69,6 +70,7 @@ export default class SamangeWidget extends Component {
       platformWidgetHelper.updateHeight(1500)
       platformWidgetHelper.show()
     }
+    platformWidgetHelper.updateHeight()
   }
 
 
@@ -125,22 +127,22 @@ export default class SamangeWidget extends Component {
 
   renderSessionPin = () => (
     <div className='slds slds-samanage samanage-media-query'>
-      <PlatformWidgetComponents.RegularText>
+      <PlatformWidgetComponents.RegularText className={classes.topText}>
           Your Session Code is:
       </PlatformWidgetComponents.RegularText>
-      <PlatformWidgetComponents.LargeText>
+      <PlatformWidgetComponents.LargeText className={classes.pinText}>
         {this.state.sessionDetails.code}
       </PlatformWidgetComponents.LargeText>
-      <PlatformWidgetComponents.RegularText>
+      <PlatformWidgetComponents.RegularText className={classes.topText}>
           Your Link Code is:
       </PlatformWidgetComponents.RegularText>
-      <PlatformWidgetComponents.LargeText>
+      <PlatformWidgetComponents.LargeText className={classes.topText}>
         {this.state.sessionDetails.end_customer_link}
       </PlatformWidgetComponents.LargeText>
-      <PlatformWidgetComponents.RegularText>
+      <PlatformWidgetComponents.RegularText className={classes.topText}>
           For Help :
       </PlatformWidgetComponents.RegularText>
-      <PlatformWidgetComponents.LargeText>
+      <PlatformWidgetComponents.LargeText className={classes.topText}>
         {this.state.sessionDetails.supporter_link}
       </PlatformWidgetComponents.LargeText>
     </div>
