@@ -15,31 +15,22 @@ export default class TeamViewer extends Component {
     super(props)
     this.state = {
       view: VIEW_MODE.LOGIN,
+      posted: false,
       clientId: '',
       clientSecret: '',
       sessionDetails: {},
       accessToken: ''
-      // clientId: '177650-THka9f5jQct8BnhdGxP1',
-      // clientSecret: 'wSUJn9fDuRxgLfdg5L8q',
-      // sessionDetails: {
-      //   assigned_at: '2018-09-25T13:14:48Z',
-      //   assigned_userid: 'u120083597',
-      //   code: 's06-301-144',
-      //   created_at: '2018-09-25T13:14:48Z',
-      //   description: 'Hello, I have an issue with my printer, can you please assist?',
-      //   end_customer: {name: 'Peter Niedhelp'},
-      //   end_customer_link: 'https://get.teamviewer.com/s06301144',
-      //   groupid: 'g132970333',
-      //   state: 'Open',
-      //   supporter_link: 'https://get.teamviewer.com/s06301144-rKIw9AcHRFIx',
-      //   valid_until: '2018-09-26T13:14:48Z'
-      // },
-      // accessToken: '4343411-sjopi4AlV3PSgdurQ2hW'
     }
   }
 
   static propTypes = {
-    contextId: PropTypes.string.isRequired
+    contextId: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired
+  }
+
+  componentDidMount () {
+    const { accessToken } = this.props
+    if (accessToken.length > 0) this.setState({ view: VIEW_MODE.GENERATE_PIN, accessToken })
   }
 
   componentDidUpdate () {
@@ -48,42 +39,53 @@ export default class TeamViewer extends Component {
 
   createTeamViewerSession = () => {
     const { accessToken } = this.state
+    const { userId } = this.props
     const self = this
     const xhttp = new XMLHttpRequest()
     xhttp.onreadystatechange = function() {
       if (this.readyState === 4) {
         self.setState({ sessionDetails: JSON.parse(this.responseText), view: VIEW_MODE.DISPLAY_PIN })
+        const StringDate = new Date(JSON.parse(this.responseText).valid_until)
+        const validUntil = StringDate.getTime()
+        const value = JSON.stringify({ accessToken, validUntil })
+        platformWidgetHelper.setStorage(userId.toString(), value, validUntil )
       }
     }
-    xhttp.open('POST',
-      'https://l6tw4zzxz1.execute-api.us-east-1.amazonaws.com/prod/api/v1/sessions',
-      // 'https://webapi.teamviewer.com/api/v1/ping',
-      true)
+    xhttp.open('POST', 'https://l6tw4zzxz1.execute-api.us-east-1.amazonaws.com/prod/api/v1/sessions', true)
     xhttp.setRequestHeader('Authorization', `Bearer ${accessToken}`)
     xhttp.setRequestHeader('Content-Type', 'application/json')
     xhttp.send(JSON.stringify({
-      groupname: 'Samanage',
-      description: 'Hello, I have an issue with my printer, can you please assist?',
-      end_customer: { name: 'Peter Niedhelp' },
+      groupname: 'Samanage'
     }))
   }
 
-   postComment = () => {
-     const { sessionDetails } = this.state
-     const comment_json = {
-       comment: {
-         body: `<![CDATA[<p>Click the link below to start teamViewer session</p><a href="${sessionDetails.end_customer_link}">${sessionDetails.end_customer_link}</a>`,
-         is_private: false
-       }
-     }
-     platformWidgetHelper.callSamanageAPI('POST', `/incidents/${this.props.contextId}/comments.json`, comment_json, (response) => {
-         const error_message = document.getElementById('logmein_error_message')
-         if (document.contains(error_message)) {
-           error_message.remove()
-         }
-       }
-     )
-   }
+  postComment = () => {
+    const self = this
+    const { sessionDetails } = this.state
+    const comment_json = {
+      comment: {
+        body: `<![CDATA[<p>Click the link below to start teamViewer session</p><a href="${sessionDetails.end_customer_link}">${sessionDetails.end_customer_link}</a>`,
+        is_private: false
+      }
+    }
+    platformWidgetHelper.callSamanageAPI('POST', `/incidents/${this.props.contextId}/comments.json`, comment_json, (response) => {
+      const error_message = document.getElementById('logmein_error_message')
+      if (document.contains(error_message)) {
+        error_message.remove()
+      }
+      else { self.setState({ posted: true}) }
+    })
+  }
+
+  renderPostedMessage = (posted) => {
+    if (!posted) return null
+    return (
+      <div className={classes.copyText}>
+        <PlatformWidgetComponents.Icon icon='check' style={{ fill: 'green', marginRight: '8px', width: '20px', height: '20px', paddingBottom: '3px' }} />
+        Link Posted successfully
+      </div>
+    )
+  }
 
   onClientSecretChange = (event) => {
     this.setState({ clientSecret: event.target.value })
@@ -93,52 +95,55 @@ export default class TeamViewer extends Component {
     this.setState({ clientId: event.target.value })
   }
 
-  renderSessionPin = () => (
-    <div className={classes.topDiv}>
-      <PlatformWidgetComponents.RegularText className={classes.topText}>
-            Your Session Code is:
-      </PlatformWidgetComponents.RegularText>
-      <PlatformWidgetComponents.LargeText className={classes.pinText}>
-        {this.state.sessionDetails.code}
-      </PlatformWidgetComponents.LargeText>
-      <div className={classes.buttons}>
-        <PlatformWidgetComponents.MainButton className={classes.button} onClick={this.postComment}>
-          Send Link via comment
-        </PlatformWidgetComponents.MainButton>
-        <PlatformWidgetComponents.RegularButton  onClick={this.createTeamViewerSession} className={classes.button}>
-          Generate New Code
-        </PlatformWidgetComponents.RegularButton>
+  renderSessionPin = () => {
+    const { posted } = this.state
+    return (
+      <div className={classes.topDiv}>
+        { this.renderPostedMessage(posted) }
+        <PlatformWidgetComponents.RegularText className={classes.topText}>
+              Your Session Code is:
+        </PlatformWidgetComponents.RegularText>
+        <PlatformWidgetComponents.LargeText className={classes.pinText}>
+          {this.state.sessionDetails.code}
+        </PlatformWidgetComponents.LargeText>
+        <div className={classes.buttons}>
+          <PlatformWidgetComponents.MainButton className={classes.button} onClick={this.postComment}>
+            Send Link via comment
+          </PlatformWidgetComponents.MainButton>
+          <PlatformWidgetComponents.RegularButton  onClick={this.createTeamViewerSession} className={classes.button}>
+            Generate New Code
+          </PlatformWidgetComponents.RegularButton>
+        </div>
+        <TeamViewerIcon />
       </div>
+    )}
 
+  renderGenerateSession = () => (
+    <div className={classes.topDiv}>
+      <PlatformWidgetComponents.RegularText className={classes.text}>
+          Click to generate your Session Code. It will be used to conduct a remote support session
+      </PlatformWidgetComponents.RegularText>
+      <PlatformWidgetComponents.MainButton onClick={this.createTeamViewerSession} className={classes.button}>
+          Generate Session Code
+      </PlatformWidgetComponents.MainButton>
       <TeamViewerIcon />
     </div>
   )
-
-  renderGenerateSession = () => (
-      <div className={classes.topDiv}>
-        <PlatformWidgetComponents.RegularText className={classes.text}>
-            Click to generate your Session Code. It will be used to conduct a remote support session
-        </PlatformWidgetComponents.RegularText>
-        <PlatformWidgetComponents.MainButton onClick={this.createTeamViewerSession} className={classes.button}>
-            Generate Session Code
-        </PlatformWidgetComponents.MainButton>
-        <TeamViewerIcon />
-      </div>
-
-    )
 
   renderLogin = () => {
     const { clientId, clientSecret } = this.state
     return (
       <div className={classes.topDiv}>
-        <PlatformWidgetComponents.TextField label='Client ID' onChange={this.onClientIDChange} value={clientId} />
-        <PlatformWidgetComponents.TextField label='Client Secret' onChange={this.onClientSecretChange} value={clientSecret} />
+        <div className={classes.clientId}>
+          <PlatformWidgetComponents.TextField label='Client ID' onChange={this.onClientIDChange} value={clientId} />
+        </div>
+        <div className={classes.clientSecret}>
+          <PlatformWidgetComponents.TextField label='Client Secret' type='password'  onChange={this.onClientSecretChange} value={clientSecret} />
+        </div>
         <OAuthAuthenticator
           on_state_change={({ state, credentials }) => {
-            console.log(`TeamViewer auth state: ${state}`)
             if (state === OAuthAuthenticator.AUTHENTICATED) {
               this.setState({ accessToken: credentials.access_token, view: VIEW_MODE.GENERATE_PIN })
-              // this.setState({ view: VIEW_MODE.GENERATE_PIN })
             }
           }}
           client_id={clientId}
@@ -153,6 +158,8 @@ export default class TeamViewer extends Component {
 
   render () {
     const { view } = this.state
+    const { userId } = this.props
+    const temp = platformWidgetHelper.getStorage(userId.toString(), this.getStorageCB)
     switch (view) {
       case VIEW_MODE.LOGIN: return this.renderLogin()
       case VIEW_MODE.GENERATE_PIN: return this.renderGenerateSession()

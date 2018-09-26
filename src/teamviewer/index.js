@@ -7,40 +7,51 @@ export default class SamangeWidget extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      contextId: ''
+      contextId: '',
+      userId: '',
+      accessToken: null
     }
   }
 
-  onWidgetContextObject = (object) => {
+  onWidgetObject = (object) => {
     if (object.context_type !== contextTypes.INCIDENT) {
       platformWidgetHelper.hide()
-    } else { this.setState({ contextId: object.context_id }) }
+    } else {
+      platformWidgetHelper.getUserInfo((user_info) => {
+        this.setState({ contextId: object.context_id, userId: user_info.id })
+        platformWidgetHelper.getStorage(user_info.id.toString(), this.getStorageCB)
+      })
+    }
   }
 
   componentDidUpdate () {
-    platformWidgetHelper.updateHeight(3500)
+    platformWidgetHelper.updateHeight(1500)
   }
 
   componentDidMount () {
-    console.log('componentDidMount')
-    platformWidgetHelper.getContextObject(this.onWidgetContextObject)
-    // platformWidgetHelper.getStorage(STORAGE_KEY, this.getTokenFromStorage)
+    platformWidgetHelper.getContextObject(this.onWidgetObject)
   }
 
-  // getTokenFromStorage = (response) => {
-  //   if (response) {
-  //     response = JSON.parse(response)
-  //     this.setState({ code: response.code ? response.code : '' })
-  //   } else {
-  //     this.setState({ code: '' })
-  //   }
-  // }
+  getStorageCB = (response) => {
+    if (response) {
+      const responseObject = JSON.parse(response)
+      const now = new Date().getTime()
+      debugger // eslint-disable-line
+      if ((responseObject.accessToken && responseObject.validUntil) && (now < responseObject.validUntil)) {
+        this.setState({ accessToken: responseObject.accessToken })
+        return
+      }
+    }
+    this.setState({ accessToken: '' })
+  }
 
   render () {
-    const { contextId } = this.state
+    const { contextId, userId, accessToken } = this.state
+
+    if (accessToken === null) return null
     return (
       <div className='slds slds-samanage samanage-media-query'>
-        <TeamViewer contextId={contextId} />
+        <TeamViewer contextId={contextId} userId={userId} accessToken={accessToken} />
       </div>
     )
   }
