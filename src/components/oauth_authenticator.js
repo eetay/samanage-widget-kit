@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import classes from '../teamviewer/index.scss'
 
 /*
   This component manages oauth authentication process
@@ -12,6 +14,11 @@ export default class OAuthAuthenticator extends React.PureComponent {
     this.credentials = null
     this.externalWindow = null
     this.state = { state: OAuthAuthenticator.NOT_AUTHENTICATED, credentials: null, externalWindow: false }
+  }
+
+  static propTypes = {
+    client_id: PropTypes.string.isRequired,
+    client_secret: PropTypes.string.isRequired
   }
 
   componentDidMount () {
@@ -98,7 +105,7 @@ export default class OAuthAuthenticator extends React.PureComponent {
       state: platformWidgetHelper.toQueryString({ closeWindow: true }),
       display: 'popup'
     })
-    this.externalWindow = window.open(OAuthAuthenticator_url, '_blank', 'height=600,width=800,status=yes,toolbar=no,menubar=no,location=no')
+    this.externalWindow = window.open(OAuthAuthenticator_url, '_blank', 'height=600,width=800,status=yes,toolbar=no,menubar=no,location=no, centerscreen, chrome=yes')
     const self = this
     this.externalWindow.onbeforeunload = function() {
       self.setState({ externalWindow: false })
@@ -108,10 +115,15 @@ export default class OAuthAuthenticator extends React.PureComponent {
   }
 
   render () {
+    const { client_id, client_secret } = this.props
+    const shouldDisableButton = client_secret.length === 0 || client_id.length === 0
+    const Button = shouldDisableButton ? PlatformWidgetComponents.RegularButton : PlatformWidgetComponents.MainButton
     return (
-      <button type='button' onClick={this.state.externalWindow ? this.focusExternalWindow : this.openOAuthAuthenticator}>
-        Login
-      </button>
+      <div className={classes.buttons}>
+        <Button onClick={this.state.externalWindow ? this.focusExternalWindow : this.openOAuthAuthenticator} className={classes.button}>
+        Sign In
+        </Button>
+      </div>
     )
   }
 }
